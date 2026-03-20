@@ -7,7 +7,6 @@ function Headers() {
             <p className="font-cinzel text-4xl">BigBode</p>
         </div>
         <div className="flex justify-center gap-9 flex-1 font-cormorant font-bold ">
-
             <Link to='/' className="btn btn-ghost hover: text-2xl">Home</Link>
             <Link to='/reading' className="btn btn-ghost text-2xl">Reading</Link>
             <Link to='/profile' className="btn btn-ghost text-2xl">Library</Link>
