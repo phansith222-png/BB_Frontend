@@ -6,3 +6,7 @@ export const mainapi = axios.create({
         'Content-Type' : 'application/json'
     }
 })
+
+export const apiRegister = async (body) => {
+    return await mainapi.post('/api/auth/register',body)
+}

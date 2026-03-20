@@ -1,5 +1,8 @@
 import {z} from "zod";
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const mobileRegex = /^[0-9]{10,15}$/
+
 export const registerSchema = z.object({
     identity: z.string().min(2, "must have more than 2 characters")
         .refine(val => {
@@ -14,7 +17,7 @@ export const registerSchema = z.object({
     dateOfBirth: z.string().optional()
 }).refine(input => input.password === input.confirmPassword, {
     message: "password must match with confirm password",
-    path: ['confirmpassword']
+    path: ['confirmPassword']
 })
 
 export const loginSchema = z.object({
