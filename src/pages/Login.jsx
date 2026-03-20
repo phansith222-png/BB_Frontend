@@ -5,7 +5,7 @@ import { loginSchema } from "../validations/schema"
 import { json, promise } from "zod"
 import useUserStore from "../stores/userStores"
 import { toast } from "react-toastify"
-import RegisterForm from "../components/registerForm"
+import RegisterForm from "../components/RegisterForm"
 
 function Login() {
   const login = useUserStore(state => state.login)
@@ -13,8 +13,7 @@ function Login() {
     resolver: zodResolver(loginSchema),
     mode: "onSubmit"
   })
-  const { errors } = formState
-
+  const { errors, isSubmitting } = formState
   const onSubmit = async (body) => {
     try {
       await new promise(resolve => setTimeout(resolve, 1000))
@@ -28,7 +27,6 @@ function Login() {
     }
   }
   return (
-
     <div className="card lg:card-side relative shadow-sm flex  w-full bg-gradient-to-r min-h-screen from-white to-primary/50 ">
 
       <figure className='hidden lg:flex w-1/2 h-screen relative overflow-hidden'>
@@ -44,27 +42,33 @@ function Login() {
             <Star className="absolute -bottom-2 -right-8 text-primary w-3 h-3 animate-[pulse_6s_infinite]" />
           </div>
           <p className='text-base-content font-bold text-2xl mb-2 font-cormorant'>Please enter your details to sign in.</p>
-          <form onSubmit={handleSubmit(onSubmit)} className='flex gap-4 flex-col'>
-            <div className='form-control'>
-              <label className="floating-label transition-all duration-300">
-                <span className="font-serif">Username</span>
-                <input type="text " placeholder="Username" className=" text-2xl input input-lg input-primary w-full transition-all duration-300" />
-              </label>
-            </div>
-            <div className="form-control">
-              <label className="floating-label transition-all duration-300">
-                <span className="font-serif">Password</span>
-                <input type="password" placeholder="Password" className="text-2xl input input-lg input-primary w-full transition-all duration-300" />
-              </label>
-              <label className="label">
-                <a href="#" className="label-text-alt link link-hover text-2xl mt-2 font-extrabold text-red-400 font-cormorant">Forgot password?</a>
-              </label>
-            </div>
-            <div className='flex w-full flex-col mt-2'>
-              <button className="btn btn-primary text-secondary font-bold  btn-block text-2xl  rounded-lg shadow-lg h-16 font-serif">Log in</button>
-              <div className="divider text-base-content/30 uppercase text-md tracking-widest my-4">OR</div>
-              <button className="btn btn-ghost btn-block font-bold text-secondary text-xl hover:bg-primary/10 font-serif" onClick={() => document.getElementById('createUser-form').showModal()}>Create New Account</button>
-            </div>
+          <form onSubmit={handleSubmit(onSubmit)} >
+            <fieldset className='flex gap-4 flex-col' disabled={isSubmitting}>
+              <div className='form-control'>
+                <label className="floating-label transition-all duration-300">
+                  <span className="font-serif">Username</span>
+                  <input type="text " placeholder="Username" className=" text-md input input-lg input-primary w-full transition-all duration-300" 
+                  {...register('username')}/>
+                  <p className="text-xl text-red-400">{errors.username?.message}</p>
+                </label>
+              </div>
+              <div className="form-control">
+                <label className="floating-label transition-all duration-300">
+                  <span className="font-serif">Password</span>
+                  <input type="password" placeholder="Password" className="text-md input input-lg input-primary w-full transition-all duration-300" 
+                  {...register('password')}/>
+                  <p className="text-xl text-red-400">{errors.password?.message}</p>
+                </label>
+                <label className="label">
+                  <a href="#" className="label-text-alt link link-hover text-2xl mt-2 font-extrabold text-red-400 font-cormorant">Forgot password?</a>
+                </label>
+              </div>
+              <div className='flex w-full flex-col mt-2'>
+                <button className="btn btn-primary text-secondary font-bold  btn-block text-2xl  rounded-lg shadow-lg h-16 font-serif">Log in</button>
+                <div className="divider text-base-content/30 uppercase text-md tracking-widest my-4">OR</div>
+                <button className="btn btn-ghost btn-block font-bold text-secondary text-xl hover:bg-primary/10 font-serif" onClick={() => document.getElementById('createUser-form').showModal()}>Create New Account</button>
+              </div>
+            </fieldset>
           </form>
         </div>
       </div>
