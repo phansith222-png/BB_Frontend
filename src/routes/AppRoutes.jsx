@@ -12,19 +12,20 @@ const Login = lazy(() => import('../pages/Login'))
 
 const guestRouter = createBrowserRouter([
     {
+        path: "/login",
+        Component: Login
+    },
+    {
         path: "/",
         Component: UserLayout,
         children: [
             {
-                path: '/',
+                index: true,
                 Component: Home
             },
         ]
     },
-    {
-        path: "/login",
-        Component: Login
-    },
+
     {
         path: "*",
         element: <Navigate to="/login" />
