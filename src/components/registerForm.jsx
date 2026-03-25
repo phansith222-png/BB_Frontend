@@ -18,8 +18,9 @@ function RegisterForm() {
 
     const onSubmit = async (data) => {
         try {
+            console.log(data)
             await new Promise(resolve => setTimeout(resolve, 2000))
-            const resp = await mainapi.post('/api/auth/register', data)
+            const resp = await mainapi.post('/auth/register', data)
             toast.success(JSON.stringify(resp.data.message), { transition: Slide, autoClose: 2000 })
             document.getElementById("createUser-form").close()
             reset()

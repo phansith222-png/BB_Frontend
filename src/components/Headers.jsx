@@ -1,6 +1,10 @@
 import { Link } from "react-router"
+import useUserStore from "../stores/userStores"
 
 function Headers() {
+    const logOut = useUserStore(state=>state.logOut)
+
+    
     return (
         <div className="fixed top-0 left-0 w-full z-50 justify-between items-center border-b h-25  border-primary backdrop-blur-md  ">
             <div className="max-w-[1440px] mx-auto flex h-24 px-10  my-auto items-center">

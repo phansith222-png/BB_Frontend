@@ -1,6 +1,22 @@
+import { toast } from "react-toastify"
 import Bglandingpage from "../assets/bglandingpage.jpg"
-
+import CardOftheday from "../components/CardOftheday"
+import useReadStore from "../stores/readStores"
+import { motion } from "framer-motion"
 function Home() {
+  const tarotOftheday = useReadStore(state => state.tarotOftheday)
+  const dailyCard = useReadStore(state => state.dailyCard)
+  const aireading = useReadStore(state => state.aireading)
+  const isloading = useReadStore(state => state.isloading)
+  const isflipped = useReadStore(state => state.isflipped)
+  const hdlTarotOftheday = async () => {
+    try {
+      const resp = await tarotOftheday()
+    } catch (err) {
+      console.dir(err)
+      toast.error(err.response?.data.message || err.message)
+    }
+  }
   return (
     <div className='w-full h-full  flex flex-col gap-4 pt-27 '>
       <div className="w-full mx-auto h-full flex flex-col">
@@ -16,8 +32,8 @@ function Home() {
                 <button className="border btn-ghost btn">Explore the Cards</button>
               </div>
             </div>
-            <div className="flex-1 relative">
-              <img className=" rounded-l-[100px] h-full w-full object-cover overflow-hidden transition-transform duration-1000 hover:scale-110" src="https://images.unsplash.com/photo-1770836141377-3ac59bd071a1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+            <div className="flex-1 relative ">
+              <img className=" rounded-l-[100px] h-full w-full object-cover shadow-2xl overflow-hidden transition-transform duration-1000 hover:scale-110" src="https://images.unsplash.com/photo-1770836141377-3ac59bd071a1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
             </div>
           </div>
         </section>
@@ -27,45 +43,67 @@ function Home() {
               <p className="font-semibold font-cormorant text-4xl px-4 tracking-[0.2em] uppercase ">Tarot of The day</p>
               <p className="font-light italic opacity-70 mt-2">Good Morning , sir do you wanna know what is gonna be today ?</p>
             </div>
-            <div className=" flex flex-col gap-2">
+            <div className=" flex flex-col gap-2 items-center">
               {/* <button className=" btn btn-ghost">Click</button> */}
-              <div className="hover-3d">
-                <figure className="w-60">
-                  <img src="https://www.sacred-texts.com/tarot/pkt/img/ar03.jpg" alt="" />
-                </figure>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <p>ความอุดมสมบูรณ์</p>
-              <p>ธรรมชาติ</p>
-              <p>ความเป็นแม่</p>
-            </div>
-            <div>
-              <p>AI Text</p>
+                <CardOftheday isflipped={isflipped} dailyCard={dailyCard} hdlTarotOftheday={hdlTarotOftheday} />
+              
             </div>
           </div>
         </section>
-        <div className='flex w-full h-full justify-center items-center border rounded-2xl border-primary flex-col gap-20'>
-          <div>
-            <p>ทำไมต้องเรียนรู้กับ BigBen</p>
+        <section className='border-primary py-32'>
+          <div className="flex w-full h-full flex-col gap-20">
+            <div className="text-center mb-20 ">
+              <h2 className="font-bold font-cormorant text-5xl mb-4">
+                ทำไมต้องเรียนรู้กับ <span className="text-primary">BigBen</span>
+              </h2>
+              <p className="font-light text-gray-500 text-xl">
+                เปลี่ยนประสบการณ์การเรียนรู้แบบเดิมที่ต้องท่องจำ ให้กลายเป็นการทำความเข้าใจอย่างลึกซึ้ง...
+              </p>
+            </div>
+            <div className=' flex w-full justify-around'>
+              <div className="flex-1 ">
+                <motion.div className="flex flexcol justify-center">
+                  <div className="w-1/2">
+                    <h3 className="text-2xl font-bold mb-3">AI วิเคราะห์ตามบริบท</h3>
+                    <p className="font-light text-gray-600 leading-relaxed">
+                      BigBen ไม่ได้แค่สุ่มคำทำนาย แต่จะอ่านไพ่ตามคำถามและตำแหน่งที่คุณกำหนด
+                      ช่วยให้คุณเข้าใจความเชื่อมโยงอย่างแท้จริง
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+              <div className="flex-1">
+                <motion.div className="flex flexcol justify-center">
+                  <div className="w-1/2">
+                    <h3 className="text-2xl font-bold mb-3">AI วิเคราะห์ตามบริบท</h3>
+                    <p className="font-light text-gray-600 leading-relaxed">
+                      BigBen ไม่ได้แค่สุ่มคำทำนาย แต่จะอ่านไพ่ตามคำถามและตำแหน่งที่คุณกำหนด
+                      ช่วยให้คุณเข้าใจความเชื่อมโยงอย่างแท้จริง
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+              <div className="flex-1">
+                <motion.div className="flex flexcol justify-center">
+                  <div className="w-1/2">
+                    <h3 className="text-2xl font-bold mb-3">AI วิเคราะห์ตามบริบท</h3>
+                    <p className="font-light text-gray-600 leading-relaxed">
+                      BigBen ไม่ได้แค่สุ่มคำทำนาย แต่จะอ่านไพ่ตามคำถามและตำแหน่งที่คุณกำหนด
+                      ช่วยให้คุณเข้าใจความเชื่อมโยงอย่างแท้จริง
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
           </div>
-          <div className=' flex w-full justify-around'>
-            <div>
-              <p>content 1</p>
-            </div>
-            <div>
-              <p>content 2</p>
-            </div>
-            <div>
-              <p>content 3</p>
-            </div>
+        </section>
+        <section className="py-24 bg-gray-50">
+          <div className='flex w-full h-full justify-center items-center rounded-2xl flex-col gap-8 '>
+            <p className="text-4xl font-bold font-cinzel tracking-wider">discovery reading more</p>
+            <p className="font-light text-gray-500 text-xl">หากท่านมีคำถามในใจหรืออยากเจาะลึกความหมายให้มากกว่าเดิม</p>
+            <button className="px-10 py-4 rounded-full bg-secondary text-white hover:bg-primary duration-300 transition-colors">เริ่มเปิดไพ่กับ BigBen</button>
           </div>
-        </div>
-        <div className='flex w-full h-full justify-center items-center border rounded-2xl border-primary flex-col '>
-          <p>discovery reading more</p>
-          <p>หากท่านมีคำถามในใจหรืออยากเจาะลึกความหมายให้มากกว่าเดิม</p>
-          <button>เริ่มเปิดไพ่กับ BigBen</button>
-        </div>
+        </section>
       </div>
     </div>
   )

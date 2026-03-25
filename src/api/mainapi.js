@@ -1,12 +1,28 @@
 import axios from "axios";
+import useUserStore from "../stores/userStores";
 
 export const mainapi = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:3000/api',
     headers: {
         'Content-Type' : 'application/json'
     }
 })
 
-export const apiRegister = async (body) => {
-    return await mainapi.post('/api/auth/register',body)
-}
+mainapi.interceptors.request.use( config => {
+  const token = useUserStore.getState().token
+  if(token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
+
+export const initialRead = (body) => mainapi.post('/readings/init',body)
+
+export const shuffleCard = (body) => mainapi.post('/readings/shuffle',body)
+
+export const cutCard = (body) => mainapi.post('/readings/cut',body)
+
+export const pickCard = (body) => mainapi.post('/readings/pick',body)
+
+export const aiInterpret = (body) => mainapi.post(`/readings/ai-interpret`,body)
