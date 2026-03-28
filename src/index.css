@@ -34,3 +34,30 @@
   --radius-field: 0.5rem;
   --radius-box: 0.75rem;
 }
+/* @plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+
+  /* --- พื้นหลังและตัวอักษร (Background & Text) --- */
+  --color-base-100: #ffffff; /* สีพื้นหลังของการ์ดและกล่อง Content ต่างๆ (สีขาว) */
+  --color-base-200: #FAF8F5; /* สีพื้นหลังหลักของเว็บไซต์ (สีครีมอ่อน สบายตา) */
+  --color-base-300: #E9E1D8; /* สีพื้นหลังที่เข้มขึ้นมานิดนึง (ใช้กับพวก Tab หรือ Hover state) */
+  --color-base-content: #111827; /* สีตัวอักษรหลัก (สีเทาเข้มเกือบดำ แทน text-gray-900) */
+
+  /* --- สีหลักของแบรนด์ (Brand Colors) --- */
+  --color-primary: #B59F84; /* สีทอง/น้ำตาลตุ่นๆ ที่เป็นเอกลักษณ์ของเว็บคุณ */
+  --color-primary-content: #ffffff; /* สีตัวอักษรเมื่ออยู่บนพื้น Primary */
+
+  --color-secondary: #111827; /* สีเข้มดุดัน (ใช้กับปุ่มหลัก เช่น Start Session) */
+  --color-secondary-content: #ffffff; /* สีตัวอักษรบนปุ่ม Secondary */
+
+  --color-accent: #D8B16C; /* สีทองสว่าง (ใช้สำหรับเน้นขอบไพ่ หรือไอคอน) */
+  --color-accent-content: #111827; 
+
+  --color-neutral: #E9E1D8;
+  --color-neutral-content: #111827;
+
+  /* --- ความโค้งมน (Border Radius) --- */
+  --radius-selector: 0.5rem;
+  --radius-field: 0.75rem; /* ทำให้ช่อง Input ดูโค้งมนละมุนขึ้น (rounded-xl) */
+  --radius-box: 1.5rem; /* ทำให้กล่อง Component ใหญ่ๆ โค้งมนเข้ากับดีไซน์ (rounded-3xl) */

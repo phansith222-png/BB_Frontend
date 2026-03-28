@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Star } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { loginSchema } from "../validations/schema"
-import { json, promise } from "zod"
 import useUserStore from "../stores/userStores"
 import { toast } from "react-toastify"
 import RegisterForm from "../components/RegisterForm"
@@ -16,7 +15,7 @@ function Login() {
   const { errors, isSubmitting } = formState
   const onSubmit = async (body) => {
     try {
-      await new promise(resolve => setTimeout(resolve, 1000))
+      await new Promise(resolve => setTimeout(resolve, 1000))
       const resp = await login(body)
       toast.success(JSON.stringify(resp.data.message))
       reset()
@@ -47,7 +46,7 @@ function Login() {
               <div className='form-control'>
                 <label className="floating-label transition-all duration-300">
                   <span className="font-serif">Username</span>
-                  <input type="text " placeholder="Username" className=" text-md input input-lg input-primary w-full transition-all duration-300" 
+                  <input type="text" placeholder="Username" className=" text-md input input-lg input-primary w-full transition-all duration-300" 
                   {...register('username')}/>
                   <p className="text-xl text-red-400">{errors.username?.message}</p>
                 </label>
@@ -64,9 +63,9 @@ function Login() {
                 </label>
               </div>
               <div className='flex w-full flex-col mt-2'>
-                <button className="btn btn-primary text-secondary font-bold  btn-block text-2xl  rounded-lg shadow-lg h-16 font-serif">Log in</button>
+                <button type="submit" className="btn btn-primary text-secondary font-bold  btn-block text-2xl  rounded-lg shadow-lg h-16 font-serif">Log in</button>
                 <div className="divider text-base-content/30 uppercase text-md tracking-widest my-4">OR</div>
-                <button className="btn btn-ghost btn-block font-bold text-secondary text-xl hover:bg-primary/10 font-serif" onClick={() => document.getElementById('createUser-form').showModal()}>Create New Account</button>
+                <button type="button" className="btn btn-ghost btn-block font-bold text-secondary text-xl hover:bg-primary/10 font-serif" onClick={() => document.getElementById('createUser-form').showModal()}>Create New Account</button>
               </div>
             </fieldset>
           </form>

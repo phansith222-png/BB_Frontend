@@ -1,45 +1,97 @@
 import { create } from "zustand";
-import { aiInterpret, cutCard, initialRead, pickCard, shuffleCard } from "../api/mainapi";
+import { aiInterpret, cutCard, getAllSpread, getSpreadId, initialRead, pickCard, shuffleCard } from "../api/mainapi";
 
 
 const useReadStore = create((set, get) => ({
     readingId: null,
+    isReversed: false,
+    step:"QUESTION",
     deckOrder: [],
+    spread:null,
+    allSpread:null,
     card: [],
     aiReading: null,
     isLoading: false,
     isflipped: false,
     isDaily: false,
     dailyCard: {},
-    dailyIsreversed:false,
-    dailyAi:null,
+    dailyIsreversed: false,
+    dailyAi: null,
+    setReadingId: (readingId) => set({readingId:readingId}),
+    setStep: (newStep) => set({ step: newStep }),
+    setReversed: (value) => set({ isReversed: value }),
     startReading: async (body) => {
-        const resp = await initialRead(body)
-        set({ readingId: resp.data.readingId })
-        return resp
+        set({ isLoading: true })
+        try {
+            const resp = await initialRead(body)
+            set({ readingId: resp.data.readingId })
+            return resp
+        } finally {
+            set({ isLoading: false })
+        }
+
     },
     shuffleCard: async (body) => {
-        const resp = await shuffleCard(body)
-        set({ deckOrder: resp.data.deckOrder })
-        return resp
+        set({ isLoading: true })
+        try {
+            const resp = await shuffleCard(body)
+            set({ deckOrder: resp.data.deckOrder })
+            return resp
+        } finally {
+            set({ isLoading: false })
+        }
     },
     cutCard: async (body) => {
-        const resp = await cutCard(body)
-        set({ deckOrder: resp.data.deckOrder })
-        return resp
+        set({ isLoading: true })
+        try {
+            const resp = await cutCard(body)
+            set({ deckOrder: resp.data.deckOrder })
+            return resp
+        } finally {
+            set({ isLoading: false })
+        }
+    },
+    getAllSpread:async() => {
+        set({isLoading:true})
+        try {
+            const resp = await getAllSpread()
+            set({allSpread : resp.data.data})
+            return resp
+        } finally {
+            set({isLoading:false})
+        }
+    },
+    getSpreadId:async (id)=> {
+        set({isLoading:true})
+        try {
+            const resp = await getSpreadId(id)
+            console.log(resp.data)
+            return resp
+        }finally{
+            set({isLoading:false})
+        }
     },
     pickCard: async (body) => {
-        const resp = await pickCard(body)
-        set({ card: resp.data.card })
-        return resp
+        set({ isLoading: true })
+        try {
+            const resp = await pickCard(body)
+            set({ card: resp.data.card })
+            return resp
+        } finally {
+            set({ isLoading: false })
+        }
     },
     aiInterpret: async (body) => {
-        const resp = await aiInterpret(body)
-        set({ aiInterpret: resp.data })
-        return resp
+        set({ isLoading: true })
+        try {
+            const resp = await aiInterpret(body)
+            set({ aiReading: resp.data })
+            return resp
+        } finally {
+            set({ isLoading: false })
+        }
     },
     tarotOftheday: async () => {
-        console.log(get().isDaily)
         set({ isLoading: true })
         try {
             const initResp = await initialRead({
@@ -69,7 +121,7 @@ const useReadStore = create((set, get) => ({
             const cardData = pickResp.data.card
             const isReversedStatus = currentDeck[0].isReversed
             // console.log(typeof(isReversedStatus))
-            set({ dailyCard: cardData,dailyIsreversed:isReversedStatus})
+            set({ dailyCard: cardData, dailyIsreversed: isReversedStatus })
             const aiReadingDaily = await aiInterpret({
                 readingId: rId,
                 spreadType: "TarotOfTheDay",
@@ -77,13 +129,15 @@ const useReadStore = create((set, get) => ({
                 card: cardData,
             });
             console.log(aiReadingDaily.data.data)
-            set({dailyAi:aiReadingDaily.data.data})
-            set({isDaily: true})
+            set({ dailyAi: aiReadingDaily.data.data })
+            set({ isDaily: true })
             set({ isLoading: false, isflipped: true })
         } catch (error) {
             set({ isLoading: false });
             console.error("Sequence Error:", error);
             throw error;
+        }finally {
+            set({ isLoading: false });
         }
     }
 }))
