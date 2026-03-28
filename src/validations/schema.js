@@ -24,3 +24,13 @@ export const loginSchema = z.object({
     username: z.string().min(8, "Username must be at least 8 characters long"),
     password: z.string().min(6, "Password must be at least 6 characters long")
 })
+
+export const updateMeSchema = z.object({
+    identity: z.string().optional().or(z.literal('')),
+    username: z.string().min(8, ("Username must be at least 8 characters long")).optional(),
+    firstName: z.string().optional().or(z.literal('')),
+    lastName: z.string().optional().or(z.literal('')),
+    zodiac: z.string().optional().or(z.literal('')),
+    dateOfBirth: z.string().optional().or(z.literal('')),
+    profileImage: z.string().optional().or(z.literal('')),
+})

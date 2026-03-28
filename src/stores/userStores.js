@@ -17,6 +17,15 @@ const useUserStore = create(
             },
             logout: () => {
                 set({ token: '', user: null ,profile:null})
+            },
+            getProfile: async () => {
+                try {
+                    const resp = await mainapi.get("/users/me")
+                    set({profile:resp.data})
+                    return resp
+                } catch (error) {
+                    console.error("Axios profile failed", error)
+                }
             }
         }),
         {

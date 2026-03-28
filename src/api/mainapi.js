@@ -26,3 +26,8 @@ export const cutCard = (body) => mainapi.post('/readings/cut',body)
 export const pickCard = (body) => mainapi.post('/readings/pick',body)
 
 export const aiInterpret = (body) => mainapi.post(`/readings/ai-interpret`,body)
+
+
+
+
+export const getCard = () => mainapi.get('/cards')

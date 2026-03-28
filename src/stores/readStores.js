@@ -78,7 +78,7 @@ const useReadStore = create((set, get) => ({
             });
             console.log(aiReadingDaily.data.data)
             set({dailyAi:aiReadingDaily.data.data})
-            // set({isDaily: true})
+            set({isDaily: true})
             set({ isLoading: false, isflipped: true })
         } catch (error) {
             set({ isLoading: false });

@@ -17,64 +17,80 @@ function CardOftheday(props) {
 
     return (
         <>
-            <div onClick={hdlTarotOftheday}
-                className="relative w-64 h-96 cursor-pointer [perspective:1000px] ">
-                <motion.div
-                    className="relative w-full h-full [transform-style:preserve-3d]"
-                    initial={false}
-                    animate={{ rotateY: isflipped ? 180 : 0 }}
-                    transition={{ duration: 1.2, ease: "easeInOut" }}
+            <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto">
+                <div
+                    onClick={hdlTarotOftheday}
+                    className="relative w-64 h-96 sm:w-72 sm:h-[432px] cursor-pointer [perspective:1000px] group"
                 >
-                    <figure className="absolute inset-0 w-full h-full [backface-visibility:hidden] ">
-                        <img src="https://images.unsplash.com/photo-1739475981246-a6d8be7081e2?q=80&w=709&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Card Back"
-                            className="w-full h-full object-cover rounded-xl shadow-2xl border-4 border-off-white" />
-                    </figure>
-                    <figure className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                        {card && (
+                    <motion.div
+                        className="relative w-full h-full [transform-style:preserve-3d]"
+                        initial={false}
+                        animate={{ rotateY: isflipped ? 180 : 0 }}
+                        transition={{ duration: 0.8, ease: "easeInOut" }}
+                    >
+                        <figure className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
                             <img
-                                src={card?.img_url}
-                                alt={card?.name}
-                                className={`w-full h-full object-cover rounded-xl shadow-2xl transition-transform duration-500 ${dailyIsreversed ? 'rotate-180' : 'rotate-0'
-                                    }`}
+                                src="https://images.unsplash.com/photo-1739475981246-a6d8be7081e2?q=80&w=709&auto=format&fit=crop"
+                                alt="Card Back"
+                                className="w-full h-full object-cover rounded-2xl shadow-2xl border-4 border-[#FAF8F5] transition-transform duration-300 group-hover:scale-[1.02]"
                             />
-                        )}
-                    </figure>
-                </motion.div>
-            </div>
-            <div className="flex gap-2 p-4 w-full h-20 justify-center">
-                <AnimatePresence>
-                    {isflipped && meaningArray.map((text, index) => (
-                        <motion.p
-                            key={index}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.8 }}
-                            className="px-3 py-1 bg-white/20 rounded-full border border-white/10 text-sm font-light backdrop-blur-sm h-full"
-                        >
-                            {text}
-                        </motion.p>
-                    ))}
-                </AnimatePresence>
-            </div>
-            <div className="flex gap-2 p-4">
-                <AnimatePresence>
-                    {isflipped && dailyAi && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.5 }}
-                            className="flex"
-                        >
-                            <div>
-                                <p> BigBen's </p>
-                                <p>Mood : {dailyAi.mood_score} %</p>
-                                <div>
-                                    {dailyAi.summary}
+                        </figure>
+                        <figure className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                            {card && (
+                                <img
+                                    src={card?.img_url}
+                                    alt={card?.name}
+                                    className={`w-full h-full object-cover rounded-2xl border-4 border-[#FAF8F5] ${dailyIsreversed ? "rotate-180" : "rotate-0"
+                                        }`}
+                                />
+                            )}
+                        </figure>
+                    </motion.div>
+                </div>
+
+                <div className="flex flex-wrap justify-center gap-3 w-full px-4 min-h-[40px]">
+                    <AnimatePresence>
+                        {isflipped &&
+                            meaningArray.map((text) => (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    transition={{ delay: 0.5 , duration: 0.4 }}
+                                >
+                                    <span className="px-5 py-2 bg-white/60 backdrop-blur-md rounded-full border border-gray-300/50 text-gray-800 text-sm font-medium shadow-sm">
+                                        {text}
+                                    </span>
+                                </motion.div>
+                            ))}
+                    </AnimatePresence>
+                </div>
+
+                <div className="w-full px-4">
+                    <AnimatePresence>
+                        {isflipped && dailyAi && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 1 }}
+                                className="w-full bg-white/80 backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-xl text-center flex flex-col items-center gap-4"
+                            >
+                                <div className="flex flex-col items-center gap-1 border-b border-gray-200 pb-4 w-full">
+                                    <h3 className="text-xl font-bold font-cormorant text-gray-900 tracking-wide">
+                                        BigBen's Insight
+                                    </h3>
+                                    <p className="text-sm font-medium text-gray-500 uppercase tracking-widest">
+                                        Mood Energy: <span className="text-[#B59F84]">{dailyAi.mood_score}%</span>
+                                    </p>
                                 </div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+
+                                <p className="font-light text-gray-700 leading-relaxed text-lg max-w-lg mt-2">
+                                    {dailyAi.summary}
+                                </p>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+
             </div>
         </>
     )

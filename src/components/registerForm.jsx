@@ -78,7 +78,7 @@ function RegisterForm() {
                         <label className="floating-label transition-all duration-300">
                             <span className="font-serif">Date of birth</span>
                             <input type="date" placeholder="Date of birth" className="input input-lg input-primary w-full transition-all duration-300"
-                                {...register("dateofbirth")} />
+                                {...register("dateOfBirth")} />
                         </label>
                     </div>
                     <div className='form-control'>

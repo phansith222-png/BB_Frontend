@@ -9,6 +9,14 @@ const Home = lazy(() => import('../pages/Home'))
 const Reading = lazy(() => import('../pages/Reading'))
 const Profile = lazy(() => import('../pages/Profile'))
 const Login = lazy(() => import('../pages/Login'))
+const Library = lazy(() => import('../pages/Library'))
+const ReadingSession = lazy(() => import('../pages/ReadingSession'));
+const commonChildren = [
+    {
+        index: true,
+        Component: Home
+    }
+]
 
 const guestRouter = createBrowserRouter([
     {
@@ -19,16 +27,12 @@ const guestRouter = createBrowserRouter([
         path: "/",
         Component: UserLayout,
         children: [
+            ...commonChildren,
             {
-                index: true,
-                Component: Home
+                path: "*",
+                element: <Navigate to="/login" replace />
             },
         ]
-    },
-
-    {
-        path: "*",
-        element: <Navigate to="/login" />
     }
 ])
 
@@ -37,21 +41,27 @@ const userRouter = createBrowserRouter([
         path: "/",
         Component: UserLayout,
         children: [
-            {
-                path: '/',
-                Component: Home
-            },
+            ...commonChildren,
             {
                 path: '/reading',
                 Component: Reading
             },
             {
+                path: '/reading/session',
+                Component: ReadingSession
+            }
+            ,
+            {
                 path: '/profile',
                 Component: Profile
             },
             {
+                path: '/library',
+                Component: Library
+            },
+            {
                 path: '*',
-                element: <Navigate to="/" />
+                element: <Navigate to="/" replace/>
             },
         ]
     }
