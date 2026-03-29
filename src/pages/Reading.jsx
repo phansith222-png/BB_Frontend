@@ -30,7 +30,7 @@ function Reading() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
   return (
-    <div className='pt-24 w-full min-h-screen bg-[#FAF8F5] font-sans '>
+    <div className='pt-24 w-full min-h-screen font-sans '>
       <motion.div className='text-center py-16'
         initial="hidden" animate="visible" variants={fadeUp}
       >
@@ -47,7 +47,7 @@ function Reading() {
       <div className='max-w-6xl mx-auto px-6 py-16'>
         <motion.div layout className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
           <AnimatePresence mode='popLayout'>
-            {allSpread.map((e)=>(
+            {allSpread && allSpread.map((e)=>(
               <Spread key={e.id} id={e.id} name={e.name} cardCount={e.cardCount} spreadType={e.spreadType} />
 
             ))}

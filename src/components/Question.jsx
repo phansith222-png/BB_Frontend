@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { pageVariants } from './pageVariants'
 import useReadStore from '../stores/readStores';
@@ -15,6 +15,16 @@ function Question() {
     const startReading = useReadStore(state => state.startReading)
     const setStep = useReadStore(state => state.setStep)
     const setReadingId = useReadStore(state => state.setReadingId)
+
+    const getSpreadId = useReadStore(state=> state.getSpreadId)
+
+    useEffect(() => {
+        if (spreadId) {
+            getSpreadId(spreadId);
+        }
+    }, [spreadId, getSpreadId]);
+
+
     const hdlStartreading = async () => {
         try {
             const resp = await startReading({

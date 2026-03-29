@@ -29,7 +29,17 @@ export const aiInterpret = (body) => mainapi.post(`/readings/ai-interpret`,body)
 
 export const getAllSpread = () => mainapi.get('/readings/spread')
  
-export const getSpreadId = (id) => mainapi.get(`/readings/spread/${id}`)
+export const getSpreadIdApi = (id) => mainapi.get(`/readings/spread/${id}`)
+
+
+export const saveReading = (body) => mainapi.post('/users/saved-readings',body)
+
+export const getSavedReadings = () => mainapi.get('/users/saved-readings')
+
+export const getAllhistory = () =>mainapi.get('/users/history')
+
+
+
 
 
 export const getCard = () => mainapi.get('/cards')

@@ -4,7 +4,8 @@ import Avatar from "./Avatar"
 
 function Headers() {
     const logout = useUserStore(state => state.logout)
-    const user = useUserStore(state => state.user)
+    const profile = useUserStore(state=>state.profile)
+    const { user, userInfo } = profile || {}
     return (
         <div className="fixed top-0 left-0 w-full z-50 justify-between items-center border-b h-25  border-primary backdrop-blur-md  ">
             <div className="max-w-[1440px] mx-auto flex h-24 px-10  my-auto items-center">
@@ -19,7 +20,7 @@ function Headers() {
                     {user ? (
                         <div className="dropdown dropdown-end hover:opacity-90 transition">
                             <div tabIndex={0} role="button" className="btn btn-circle bg-secondary/10">
-                                <Avatar />
+                                <Avatar imgSrc={userInfo?.profileImage}/>
                             </div>
                             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-2xl space-y-2">
                                 <li><Link to='/profile' className="btn btn-ghost text-xl font-cormorant">

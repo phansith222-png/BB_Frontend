@@ -11,7 +11,7 @@ const useUserStore = create(
             login: async (body) => {
                 const resp = await mainapi.post('/auth/login', body)
                 set({
-                    token: resp.data.token, user: resp.data.user, profile: resp.data.userInfo
+                    token: resp.data.token, user: resp.data.user, profile: {user: resp.data.user,userInfo:resp.data.userInfo}
                 })
                 return resp
             },
@@ -25,6 +25,13 @@ const useUserStore = create(
                     return resp
                 } catch (error) {
                     console.error("Axios profile failed", error)
+                }
+            },
+            updateProfile: async () => {
+                try {
+                    
+                } catch (error) {
+                    console.error(error)
                 }
             }
         }),

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { aiInterpret, cutCard, getAllSpread, getSpreadId, initialRead, pickCard, shuffleCard } from "../api/mainapi";
+import { aiInterpret, cutCard, getAllSpread, getSpreadIdApi, initialRead, pickCard, shuffleCard } from "../api/mainapi";
 
 
 const useReadStore = create((set, get) => ({
@@ -29,7 +29,6 @@ const useReadStore = create((set, get) => ({
         } finally {
             set({ isLoading: false })
         }
-
     },
     shuffleCard: async (body) => {
         set({ isLoading: true })
@@ -55,6 +54,7 @@ const useReadStore = create((set, get) => ({
         set({isLoading:true})
         try {
             const resp = await getAllSpread()
+            console.log(resp)
             set({allSpread : resp.data.data})
             return resp
         } finally {
@@ -64,8 +64,8 @@ const useReadStore = create((set, get) => ({
     getSpreadId:async (id)=> {
         set({isLoading:true})
         try {
-            const resp = await getSpreadId(id)
-            console.log(resp.data)
+            const resp = await getSpreadIdApi(id)
+            set({ spread: resp.data.data || resp.data })
             return resp
         }finally{
             set({isLoading:false})
