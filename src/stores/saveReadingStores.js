@@ -1,16 +1,17 @@
 import { create } from "zustand";
-import { getAllhistory, getSavedReadings, saveReading } from "../api/mainapi";
+import { deleteJournal, getAllhistory, getJournal, getSavedReadings, saveReading } from "../api/mainapi";
 
 
 const useSaveReadingstore = create((set,get)=>({
     history:[],
     saveRead:[],
+    journalReading:[],
     isLoading:false,
     getHistory: async () =>{
         set({isLoading:true})
         try {
             const resp = await getAllhistory()
-            console.log(resp.data.data)
+            return resp
         } catch(error){
             console.error("Failed to fetch history:", error)
             set({history:[]})
@@ -22,7 +23,6 @@ const useSaveReadingstore = create((set,get)=>({
         set({isLoading:true})
         try {
             const resp = await saveReading(body)
-            console.log('resp', resp)
             return resp
         } finally {
             set({isLoading:false})
@@ -33,9 +33,33 @@ const useSaveReadingstore = create((set,get)=>({
         try {
             const resp = await getSavedReadings()
             set({ saveRead: resp.data.data || [] })
+            return resp
         } catch (error) {
             console.error("Failed to fetch saved readings:", error)
             set({saveRead:[]})
+        }finally{
+            set({isLoading:false})
+        }
+    },
+    getJournal: async (id) =>{
+        set({isLoading:true})
+        try {
+            const resp = await getJournal(id)
+            set({journalReading:resp.data.data})
+            return resp
+        } catch (error) {
+            console.error("Failed to fetch journalReading:", error)
+        }finally{
+            set({isLoading:false})
+        }
+    },
+    deleteJournal: async (id) =>{
+        set({isLoading:true})
+        try {
+            const resp = await deleteJournal(id)
+            return resp
+        } catch (error) {
+            console.error("Failed to delete This journalReading:",error)
         }finally{
             set({isLoading:false})
         }

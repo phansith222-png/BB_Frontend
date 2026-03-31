@@ -33,30 +33,30 @@ function Login() {
           src="https://images.unsplash.com/photo-1600429753199-5376c2738737?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Album" />
       </figure>
-      <div className="card-body flex flex-1 justify-center ">
-        <div className=' flex flex-col gap-4 w-full px-40'>
-          <div className=" relative">
+      <div className="flex flex-1 justify-center items-center p-8 lg:p-0 ">
+        <div className=' flex flex-col gap-6 w-full max-w-md'>
+          <div className=" relative text-center lg:text-left mb-4">
             <Star className="absolute -top-4 -left-6 text-primary w-4 h-4 animate-[pulse_6s_infinite]" />
-            <p className="text-5xl text-secondary font-serif font-extrabold mb-3">Welcome Back </p>
+            <p className="text-5xl lg:text-6xl text-gray-900 font-cormorant font-bold mb-3 tracking-wide">Welcome Back </p>
             <Star className="absolute -bottom-2 -right-8 text-primary w-3 h-3 animate-[pulse_6s_infinite]" />
           </div>
-          <p className='text-base-content font-bold text-2xl mb-2 font-cormorant'>Please enter your details to sign in.</p>
+          <p className='text-gray-500 font-light text-lg'>Please enter your details to sign in.</p>
           <form onSubmit={handleSubmit(onSubmit)} >
-            <fieldset className='flex gap-4 flex-col' disabled={isSubmitting}>
+            <fieldset className='flex flex-col gap-5' disabled={isSubmitting}>
               <div className='form-control'>
                 <label className="floating-label transition-all duration-300">
-                  <span className="font-serif">Username</span>
-                  <input type="text" placeholder="Username" className=" text-md input input-lg input-primary w-full transition-all duration-300" 
+                  <span className="text-gray-500 font-medium">Username</span>
+                  <input type="text" placeholder="Username" className=" input input-lg w-full bg-white border-gray-200 focus:border-[#B59F84] focus:ring-1 focus:ring-[#B59F84] transition-all duration-300 rounded-xl" 
                   {...register('username')}/>
-                  <p className="text-xl text-red-400">{errors.username?.message}</p>
+                  <p className="text-sm text-error mt-1 ml-1">{errors.username?.message}</p>
                 </label>
               </div>
               <div className="form-control">
                 <label className="floating-label transition-all duration-300">
-                  <span className="font-serif">Password</span>
-                  <input type="password" placeholder="Password" className="text-md input input-lg input-primary w-full transition-all duration-300" 
+                  <span className="text-gray-500 font-medium">Password</span>
+                  <input type="password" placeholder="Password" className="input input-lg w-full bg-white border-gray-200 focus:border-[#B59F84] focus:ring-1 focus:ring-[#B59F84] transition-all duration-300 rounded-xl" 
                   {...register('password')}/>
-                  <p className="text-xl text-red-400">{errors.password?.message}</p>
+                  <p className="text-sm text-error mt-1 ml-1">{errors.password?.message}</p>
                 </label>
                 <label className="label">
                   <a href="#" className="label-text-alt link link-hover text-2xl mt-2 font-extrabold text-red-400 font-cormorant">Forgot password?</a>
@@ -71,10 +71,13 @@ function Login() {
           </form>
         </div>
       </div>
-      <dialog id="createUser-form" className="modal">
-        <div className="modal-box">
+      <dialog id="createUser-form" className="modal ">
+        <div className="modal-box rounded-3xl p-8">
           <RegisterForm />
         </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
       </dialog>
     </div>
   )

@@ -1,25 +1,51 @@
 import { create } from "zustand";
 import { aiInterpret, cutCard, getAllSpread, getSpreadIdApi, initialRead, pickCard, shuffleCard } from "../api/mainapi";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 
-const useReadStore = create((set, get) => ({
+const useReadStore = create(persist((set, get) => ({
     readingId: null,
     isReversed: false,
-    step:"QUESTION",
+    step: "QUESTION",
     deckOrder: [],
-    spread:null,
-    allSpread:null,
+    spread: null,
+    allSpread: null,
     card: [],
     aiReading: null,
     isLoading: false,
     isflipped: false,
     isDaily: false,
+    dailyDeckOrder:[],
     dailyCard: {},
     dailyIsreversed: false,
     dailyAi: null,
-    setReadingId: (readingId) => set({readingId:readingId}),
+    lastDrawnDate: null,
+    setReadingId: (readingId) => set({ readingId: readingId }),
     setStep: (newStep) => set({ step: newStep }),
     setReversed: (value) => set({ isReversed: value }),
+    checkDailyReset: () => {
+        const today = new Date().toDateString();
+        if (get().lastDrawnDate !== today) {
+            set({
+                dailyCard: {},
+                dailyIsreversed: false,
+                dailyAi: null,
+                isflipped: false,
+                lastDrawnDate: null,
+                isDaily: false
+            });
+        }
+    },
+    clearDaily: () => {
+        set({
+            dailyCard: {},
+            dailyIsreversed: false,
+            dailyAi: null,
+            isflipped: false,
+            lastDrawnDate: null,
+            isDaily: false
+        });
+    },
     startReading: async (body) => {
         set({ isLoading: true })
         try {
@@ -50,25 +76,25 @@ const useReadStore = create((set, get) => ({
             set({ isLoading: false })
         }
     },
-    getAllSpread:async() => {
-        set({isLoading:true})
+    getAllSpread: async () => {
+        set({ isLoading: true })
         try {
             const resp = await getAllSpread()
             console.log(resp)
-            set({allSpread : resp.data.data})
+            set({ allSpread: resp.data.data })
             return resp
         } finally {
-            set({isLoading:false})
+            set({ isLoading: false })
         }
     },
-    getSpreadId:async (id)=> {
-        set({isLoading:true})
+    getSpreadId: async (id) => {
+        set({ isLoading: true })
         try {
             const resp = await getSpreadIdApi(id)
             set({ spread: resp.data.data || resp.data })
             return resp
-        }finally{
-            set({isLoading:false})
+        } finally {
+            set({ isLoading: false })
         }
     },
     pickCard: async (body) => {
@@ -92,13 +118,45 @@ const useReadStore = create((set, get) => ({
         }
     },
     tarotOftheday: async () => {
+        const today = new Date().toDateString();
+        if (get().isLoading) {
+            console.log("กำลังโหลดไพ่... ห้ามกดซ้ำ!");
+            return; 
+        }
+        if (get().lastDrawnDate === today && get().isDaily === true) {
+            return;
+        }
         set({ isLoading: true })
         try {
             const initResp = await initialRead({
                 spreadId: 1,
                 question: "ไพ่ประจำวันของฉันวันนี้คืออะไร?",
-                isDaily: get().isDaily
+                isDaily: true
             });
+            if (initResp.data?.isAlreadyDrawn) {
+
+                const oldReading = initResp.data.data;
+                console.log('oldReading', oldReading)
+                const savedCardInfo = oldReading?.deckOrder?.[0];
+                console.log('initResp', initResp)
+                const pickResp = await pickCard({
+                        readingId: oldReading.id,
+                        selectId: [{ 
+                            id: savedCardInfo.id, 
+                            isReversed: savedCardInfo.isReversed 
+                        }]
+                    });
+                    console.log('pickResp', pickResp)
+                set({
+                        dailyCard: pickResp.data.card, 
+                        dailyIsreversed: savedCardInfo.isReversed,
+                        dailyAi: oldReading.aiInterpretation,
+                        isDaily: true,
+                        isflipped: true,
+                        lastDrawnDate: today
+                    });
+                return;
+            }
             const rId = initResp.data.data.readingId
             const shuffleResp = await shuffleCard({
                 readingId: rId,
@@ -109,17 +167,18 @@ const useReadStore = create((set, get) => ({
             const currentDeck = shuffleResp.data.deckOrder;
             // console.log('currentDeck', currentDeck)
             const randomPos = Math.floor(Math.random() * 78) + 1;
-            await cutCard({
+            const cutResp = await cutCard({
                 readingId: rId,
                 position: randomPos
             });
+            const finalDeck = cutResp.data.deckOrder;
             const pickResp = await pickCard({
                 readingId: rId,
-                selectId: [currentDeck[0]]
+                selectId: [finalDeck [0]]
             });
             // console.log('pickResp', pickResp.data.card)
             const cardData = pickResp.data.card
-            const isReversedStatus = currentDeck[0].isReversed
+            const isReversedStatus = finalDeck[0].isReversed
             // console.log(typeof(isReversedStatus))
             set({ dailyCard: cardData, dailyIsreversed: isReversedStatus })
             const aiReadingDaily = await aiInterpret({
@@ -132,14 +191,26 @@ const useReadStore = create((set, get) => ({
             set({ dailyAi: aiReadingDaily.data.data })
             set({ isDaily: true })
             set({ isLoading: false, isflipped: true })
+            set({ lastDrawnDate: today })
         } catch (error) {
             set({ isLoading: false });
             console.error("Sequence Error:", error);
             throw error;
-        }finally {
+        } finally {
             set({ isLoading: false });
         }
     }
+}), {
+    name: "tarot-daily-storage",
+    storage: createJSONStorage(() => localStorage),
+    partialize: (state) => ({
+        dailyCard: state.dailyCard,
+        dailyIsreversed: state.dailyIsreversed,
+        dailyAi: state.dailyAi,
+        isflipped: state.isflipped,
+        lastDrawnDate: state.lastDrawnDate,
+        isDaily: state.isDaily
+    }),
 }))
 
 export default useReadStore

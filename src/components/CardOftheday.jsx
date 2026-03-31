@@ -9,7 +9,6 @@ function CardOftheday(props) {
     console.log('card', card)
     console.log('dailyIsreversed', dailyIsreversed)
     const currentMeaning = dailyIsreversed ? card?.reverse_Mean : card?.upright_Mean;
-    console.log(currentMeaning)
     // const meaningArray = currentMeaning.split(',')
     // const meaningSplited = meaningArray.map(item => item.trim())
     const meaningArray = currentMeaning ? currentMeaning.split(',').map(item => item.trim()) : []
@@ -51,11 +50,12 @@ function CardOftheday(props) {
                 <div className="flex flex-wrap justify-center gap-3 w-full px-4 min-h-[40px]">
                     <AnimatePresence>
                         {isflipped &&
-                            meaningArray.map((text) => (
+                            meaningArray.map((text, index) => (
                                 <motion.div
+                                    key={index}
                                     initial={{ opacity: 0, scale: 0.8, y: 10 }}
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                                    transition={{ delay: 0.5 , duration: 0.4 }}
+                                    transition={{ delay: 0.5, duration: 0.4 }}
                                 >
                                     <span className="px-5 py-2 bg-white/60 backdrop-blur-md rounded-full border border-gray-300/50 text-gray-800 text-sm font-medium shadow-sm">
                                         {text}
@@ -69,6 +69,8 @@ function CardOftheday(props) {
                     <AnimatePresence>
                         {isflipped && dailyAi && (
                             <motion.div
+
+                                key="ai-insight"
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 1 }}

@@ -4,13 +4,15 @@ import useUserStore from '../stores/userStores'
 import Avatar from '../components/Avatar'
 import SavedReading from '../components/savedReading'
 import useSaveReadingstore from '../stores/saveReadingStores'
+import Journal from '../components/Journal'
 
 function Profile() {
   const getProfile = useUserStore(state => state.getProfile)
   const profile = useUserStore(state => state.profile)
   // const getHistory = useSaveReadingstore(state=> state.getHistory)
   const getSavedReading = useSaveReadingstore(state => state.getSavedReading)
-
+  const getJournal = useSaveReadingstore(state => state.getJournal)
+  const deleteJournal = useSaveReadingstore(state => state.deleteJournal)
   const saveRead = useSaveReadingstore(state => state.saveRead)
   const { user, userInfo } = profile || {}
 
@@ -18,9 +20,15 @@ function Profile() {
   useEffect(() => {
     getProfile();
     getSavedReading();
-  }, [])
+  }, [saveRead])
 
-
+  const handleViewDetail = (id) =>{
+    getJournal(id)
+    document.getElementById('Journal-form').showModal()
+  }
+  const deleteDetail = (id) =>{
+    deleteJournal(id)
+  }
   return (
     <div className='w-full min-h-screen pt-28 pb-20 px-4 md:px-8 font-sans flex flex-col items-center'>
       <div className='w-full max-w-6xl flex flex-col gap-8'>
@@ -67,14 +75,22 @@ function Profile() {
             Saved Readings
           </h2>
           <div className='flex flex-col gap-4'>
-                   {saveRead && (saveRead.map((e)=>(
-             <SavedReading key={e.id} id={e.id} note={e.note} createdAt={e.createdAt} question={e.reading.question} aiInterpret ={e.reading.aiInterpretation}/>
-           )))}
+            {saveRead && (saveRead.map((e) => (
+              <SavedReading key={e.id} id={e.id} readingId={e.reading.id} note={e.note} createdAt={e.createdAt} question={e.reading.question} aiInterpret={e.reading.aiInterpretation} deleteDetail={deleteDetail} handleViewDetail={handleViewDetail} />
+            )))}
           </div>
 
         </div>
 
       </div>
+      <dialog id="Journal-form" className="modal ">
+        <div className="modal-box rounded-3xl p-8 bg-black/50  backdrop-blur-sm ">
+          <Journal/>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
     </div>
     // <div className='w-full min-h-screen pt-28 pb-6 px-8 font-sans'>
     //   <div className='ml-13 w-full mx-auto'>

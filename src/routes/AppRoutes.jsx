@@ -11,6 +11,8 @@ const Profile = lazy(() => import('../pages/Profile'))
 const Login = lazy(() => import('../pages/Login'))
 const Library = lazy(() => import('../pages/Library'))
 const ReadingSession = lazy(() => import('../pages/ReadingSession'));
+const DetailCard = lazy(()=> import('../pages/DetailCard'))
+
 const commonChildren = [
     {
         index: true,
@@ -58,6 +60,10 @@ const userRouter = createBrowserRouter([
             {
                 path: '/library',
                 Component: Library
+            },
+            {
+                path: '/library/:id',
+                Component: DetailCard
             },
             {
                 path: '*',

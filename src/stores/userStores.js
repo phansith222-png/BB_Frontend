@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { mainapi } from "../api/mainapi"
 import { createJSONStorage, persist } from "zustand/middleware"
-
+import useReadStore from "./readStores"
 const useUserStore = create(
     persist(
         (set, get) => ({
@@ -17,6 +17,7 @@ const useUserStore = create(
             },
             logout: () => {
                 set({ token: '', user: null ,profile:null})
+                useReadStore.getState().clearDaily();
             },
             getProfile: async () => {
                 try {
@@ -25,13 +26,6 @@ const useUserStore = create(
                     return resp
                 } catch (error) {
                     console.error("Axios profile failed", error)
-                }
-            },
-            updateProfile: async () => {
-                try {
-                    
-                } catch (error) {
-                    console.error(error)
                 }
             }
         }),

@@ -36,6 +36,10 @@ export const saveReading = (body) => mainapi.post('/users/saved-readings',body)
 
 export const getSavedReadings = () => mainapi.get('/users/saved-readings')
 
+export const getJournal = (id) => mainapi.get(`/users/saved-readings/${id}`)
+
+export const deleteJournal = (id) => mainapi.delete(`/users/saved-readings/${id}`)
+
 export const getAllhistory = () =>mainapi.get('/users/history')
 
 

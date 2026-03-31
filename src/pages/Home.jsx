@@ -1,13 +1,19 @@
 import { toast } from "react-toastify"
 import CardOftheday from "../components/CardOftheday"
 import useReadStore from "../stores/readStores"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
+import { useEffect } from "react"
 function Home() {
   const tarotOftheday = useReadStore(state => state.tarotOftheday)
   const dailyCard = useReadStore(state => state.dailyCard)
   const aireading = useReadStore(state => state.aireading)
-  const isloading = useReadStore(state => state.isloading)
+  const isLoading = useReadStore(state => state.isLoading)
   const isflipped = useReadStore(state => state.isflipped)
+  const checkDailyReset = useReadStore(state => state.checkDailyReset)
+
+  useEffect(() => {
+      checkDailyReset();
+  }, [checkDailyReset]);
   const hdlTarotOftheday = async () => {
     try {
       const resp = await tarotOftheday()
@@ -22,8 +28,23 @@ function Home() {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col bg-[#FAF8F5] text-gray-800 font-sans">
-      
+    <div className="w-full min-h-screen flex flex-col text-gray-800 font-sans">
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#FAF8F5]/80 backdrop-blur-sm"
+          >
+            <span className="loading loading-ring loading-lg text-[#B59F84] w-16 h-16 mb-6"></span>
+            <p className="font-cormorant text-3xl text-gray-800 tracking-widest animate-pulse uppercase">
+              Connecting to the Stars...
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <section className="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-24 pb-20">
         <div className="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
           <motion.div 
@@ -97,23 +118,26 @@ function Home() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
-          {[1, 2, 3].map((item, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+          {[
+            { id: "I", title: "AI วิเคราะห์ตามบริบท", desc: "BigBen ไม่ได้แค่สุ่มคำทำนาย แต่จะอ่านไพ่ตามคำถามและตำแหน่งที่คุณกำหนด ช่วยให้คุณเข้าใจความเชื่อมโยงอย่างแท้จริง" },
+            { id: "II", title: "บันทึกและทบทวน", desc: "เก็บทุกคำทำนายไว้ใน Journal ส่วนตัว เพื่อติดตามผลลัพธ์และทบทวนเส้นทางชีวิตของคุณในภายหลัง" },
+            { id: "III", title: "เรียนรู้ผ่านการปฏิบัติ", desc: "ไม่ต้องจำคีย์เวิร์ดตายตัว ระบบจะสอนคุณให้เชื่อมโยงสัญลักษณ์บนไพ่กับสถานการณ์จริงอย่างเป็นธรรมชาติ" }
+          ].map((item, index) => (
             <motion.div 
               key={index}
-              className="flex flex-col items-center text-center p-6 rounded-2xl hover:bg-white hover:shadow-xl transition-all duration-300"
+              className="flex flex-col items-center text-center p-10 rounded-[2rem] bg-white border border-gray-100 hover:border-[#B59F84]/30 hover:shadow-2xl hover:shadow-[#B59F84]/5 transition-all duration-500 group"
               initial={{ opacity: 0, y: 30 }} 
               whileInView={{ opacity: 1, y: 0 }} 
-              transition={{ duration: 0.5 }} 
+              transition={{ duration: 0.5, delay: index * 0.1 }} 
               viewport={{ once: true }}
             >
-              <div className="w-16 h-16 bg-[#E9E1D8] rounded-full flex items-center justify-center mb-6">
-                <span className="font-cormorant text-2xl font-bold text-gray-700">{item}</span>
+              <div className="w-16 h-16 rounded-full border border-[#B59F84]/30 flex items-center justify-center mb-8 group-hover:bg-[#B59F84] transition-colors duration-500">
+                <span className="font-cormorant text-2xl font-bold text-[#B59F84] group-hover:text-white">{item.id}</span>
               </div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">AI วิเคราะห์ตามบริบท</h3>
-              <p className="font-light text-gray-600 leading-relaxed">
-                BigBen ไม่ได้แค่สุ่มคำทำนาย แต่จะอ่านไพ่ตามคำถามและตำแหน่งที่คุณกำหนด
-                ช่วยให้คุณเข้าใจความเชื่อมโยงอย่างแท้จริง
+              <h3 className="text-xl font-bold mb-4 text-gray-800">{item.title}</h3>
+              <p className="font-light text-gray-500 leading-relaxed text-sm">
+                {item.desc}
               </p>
             </motion.div>
           ))}
@@ -125,13 +149,13 @@ function Home() {
           className="max-w-4xl mx-auto px-6 text-center flex flex-col items-center gap-8"
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
         >
-          <h2 className="text-3xl lg:text-4xl font-bold font-cinzel tracking-[0.15em] uppercase text-gray-900">
-            Discovery Reading More
+          <h2 className="text-3xl lg:text-4xl font-bold font-cormorant tracking-widest uppercase text-gray-900">
+            Discover <span className="italic text-[#B59F84]">More</span>
           </h2>
-          <p className="font-light text-gray-600 text-lg lg:text-xl">
-            หากท่านมีคำถามในใจหรืออยากเจาะลึกความหมายให้มากกว่าเดิม
+          <p className="font-light text-gray-600 text-lg">
+            หากมีคำถามในใจ หรืออยากเจาะลึกความหมายให้มากกว่าเดิม
           </p>
-          <button className="mt-4 px-10 py-4 rounded-full bg-gray-900 text-white font-medium hover:bg-gray-700 hover:scale-105 duration-300 transition-all shadow-xl">
+          <button className="mt-6 px-12 py-4 rounded-full bg-gray-900 text-white font-light tracking-widest uppercase text-sm hover:bg-[#B59F84] hover:scale-105 duration-500 transition-all shadow-xl">
             เริ่มเปิดไพ่กับ BigBen
           </button>
         </motion.div>

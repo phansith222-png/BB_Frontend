@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { mainapi } from "../api/mainapi"
 import { Slide, toast } from "react-toastify"
 import { registerSchema } from "../validations/schema"
+import { X } from "lucide-react"
 
 
 function RegisterForm() {
@@ -27,20 +28,22 @@ function RegisterForm() {
         } catch (error) {
             console.dir(error)
             const errMsg = error.response.data?.message || error.message
-            toast.error(JSON.stringify(errMsg, { transition: Slide, autoClose: 2000 }))
+            toast.error(errMsg, { transition: Slide, autoClose: 3000 })
         }
     }
     return (
         <div className="flex flex-col gap-4 my-2 ">
             <div className="flex justify-between w-full items-center">
-                <p className="text-5xl font-bold flex gap-4 h-full">Sign Up
+                <p className="text-4xl font-bold font-cormorant text-gray-900 flex items-center gap-3">Sign Up
                     {isSubmitting && <span className="loading loading-ring loading-xl mt-2"></span>}
                 </p>
                 <form method="dialog">
-                    <button onClick={() => reset()} className="btn">Close</button>
+                    <button onClick={() => reset()} className="btn btn-sm btn-circle btn-ghost text-gray-500">
+                        <X size={20} />
+                    </button>
                 </form>
             </div>
-            <div>
+            <div className="text-gray-500 text-sm font-light mt-2">
                 <h4>Let's get you all sign up so you can access your personal account</h4>
             </div>
             <div className="divider text-base-content/30 uppercase text-xs tracking-widest my-0"></div>
@@ -49,20 +52,20 @@ function RegisterForm() {
                     <div className='form-control flex gap-5'>
                         <label className="floating-label transition-all duration-300">
                             <span className="font-serif">Firstname</span>
-                            <input type="text " placeholder="Firstname" className="input input-lg input-primary w-full transition-all duration-300"
+                            <input type="text " placeholder="Firstname" className="input bg-white border-gray-200 focus:border-[#B59F84] w-full transition-all duration-300"
                                 {...register('firstName')} />
 
                         </label>
                         <label className="floating-label transition-all duration-300">
                             <span className="font-serif">Lastname</span>
-                            <input type="text " placeholder="Lastname" className="input input-lg input-primary w-full transition-all duration-300"
+                            <input type="text " placeholder="Lastname" className="input bg-white border-gray-200 focus:border-[#B59F84] w-full transition-all duration-300"
                                 {...register('lastName')} />
                         </label>
                     </div>
                     <div className='form-control'>
                         <label className="floating-label transition-all duration-300">
                             <span className="font-serif">Email or Phone Number</span>
-                            <input type="text " placeholder="Email or Phone Number" className="input input-lg input-primary w-full transition-all duration-300"
+                            <input type="text " placeholder="Email or Phone Number" className="input bg-white border-gray-200 focus:border-[#B59F84] w-full transition-all duration-300"
                                 {...register('identity')} />
                             <p className="text-md text-red-400">{errors.identity?.message}</p>
                         </label>
@@ -70,21 +73,21 @@ function RegisterForm() {
                     <div className='form-control'>
                         <label className="floating-label transition-all duration-300">
                             <span className="font-serif">zodiac</span>
-                            <input type="text " placeholder="zodiac" className="input input-lg input-primary w-full transition-all duration-300"
+                            <input type="text " placeholder="zodiac" className="input bg-white border-gray-200 focus:border-[#B59F84] w-full transition-all duration-300"
                                 {...register('zodiac')} />
                         </label>
                     </div>
                     <div className='form-control'>
                         <label className="floating-label transition-all duration-300">
-                            <span className="font-serif">Date of birth</span>
-                            <input type="date" placeholder="Date of birth" className="input input-lg input-primary w-full transition-all duration-300"
+                            <span className="text-xs font-bold uppercase tracking-widest text-gray-400 ">Date of birth</span>
+                            <input type="date" placeholder="Date of birth" className="input bg-white border-gray-200 focus:border-[#B59F84] w-full transition-all duration-300"
                                 {...register("dateOfBirth")} />
                         </label>
                     </div>
                     <div className='form-control'>
                         <label className="floating-label transition-all duration-300">
                             <span className="font-serif">Username</span>
-                            <input type="text " placeholder="Username" className="input input-lg input-primary w-full transition-all duration-300"
+                            <input type="text" placeholder="Username" className="input bg-white border-gray-200 focus:border-[#B59F84] w-full transition-all duration-300"
                                 {...register('username')} />
                             <p className="text-md text-red-400">{errors.username?.message}</p>
                         </label>
@@ -92,7 +95,7 @@ function RegisterForm() {
                     <div className='form-control'>
                         <label className="floating-label transition-all duration-300">
                             <span className="font-serif">Password</span>
-                            <input type="text " placeholder="Password" className="input input-lg input-primary w-full transition-all duration-300"
+                            <input type="password" placeholder="Password" className="input bg-white border-gray-200 focus:border-[#B59F84] w-full transition-all duration-300"
                                 {...register('password')} />
                             <p className="text-md text-red-400">{errors.password?.message}</p>
                         </label>
@@ -100,7 +103,7 @@ function RegisterForm() {
                     <div className='form-control'>
                         <label className="floating-label transition-all duration-300">
                             <span className="font-serif">Confirm Password</span>
-                            <input type="text " placeholder="Confirm Password" className="input input-lg input-primary w-full transition-all duration-300"
+                            <input type="password" placeholder="Confirm Password" className="input bg-white border-gray-200 focus:border-[#B59F84] w-full transition-all duration-300"
                                 {...register("confirmPassword")} />
                             <p className="text-md text-red-400">{errors.confirmPassword?.message}</p>
                         </label>
