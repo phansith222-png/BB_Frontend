@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { pageVariants } from './pageVariants'
 import useReadStore from '../stores/readStores';
 import { useSearchParams } from 'react-router';
+import { toast } from 'react-toastify';
 function Question() {
     const [searchParams] = useSearchParams();
     const spreadId = parseInt(searchParams.get('spreadId')|| "1")
@@ -36,7 +37,8 @@ function Question() {
         setReadingId(resp.data.data.readingId)
         setStep('SHUFFLE')
         } catch (error) {
-            alert(error)
+            const errorMessage = error.response?.data?.message || error.message || "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์";
+            toast.error(errorMessage);
         }
         
     }
@@ -69,7 +71,7 @@ function Question() {
                     />
                 </button>
             </div>
-            <button disabled={isLoading} onClick={hdlStartreading} className='w-full py-4 mt-2 bg-gray-900 text-white rounded-xl font-bold hover:bg-gray-800 shadow-lg hover:shadow-xl transition-all disabled:opacity-50'>
+            <button disabled={isLoading} onClick={hdlStartreading} className='cursor-pointer w-full py-4 mt-2 bg-gray-900 text-white rounded-xl font-bold hover:bg-gray-800 shadow-lg hover:shadow-xl transition-all disabled:opacity-50'>
                 {isLoading ? "กำลังสร้าง Session..." : "Start Session"}
             </button>
         </motion.div>

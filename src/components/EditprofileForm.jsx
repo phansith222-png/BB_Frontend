@@ -51,7 +51,7 @@ function EditprofileForm() {
             console.dir(error)
             const errMsg = error.response?.data.message || error.message
             toast.error(errMsg, {
-                transition: Zoom, autoClose: 3000, containerId: 'editprofile-form', position: 'top-center'
+            transition: Zoom, autoClose: 3000, containerId: 'editprofile-form', position: 'top-center'
             })
         } finally {
             setLoading(false)

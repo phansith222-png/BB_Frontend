@@ -1,67 +1,72 @@
 import { create } from "zustand";
 import { deleteJournal, getAllhistory, getJournal, getSavedReadings, saveReading } from "../api/mainapi";
+import { toast } from "react-toastify";
 
 
-const useSaveReadingstore = create((set,get)=>({
-    history:[],
-    saveRead:[],
-    journalReading:[],
-    isLoading:false,
-    getHistory: async () =>{
-        set({isLoading:true})
+const useSaveReadingstore = create((set, get) => ({
+    history: [],
+    saveRead: [],
+    journalReading: [],
+    isLoading: false,
+    getHistory: async () => {
+        set({ isLoading: true })
         try {
             const resp = await getAllhistory()
             return resp
-        } catch(error){
-            console.error("Failed to fetch history:", error)
-            set({history:[]})
-        }finally {
-            set({isLoading:false})
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || error.message || "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์";
+            toast.error(errorMessage);
+            set({ history: [] })
+        } finally {
+            set({ isLoading: false })
         }
     },
     saveReading: async (body) => {
-        set({isLoading:true})
+        set({ isLoading: true })
         try {
             const resp = await saveReading(body)
             return resp
         } finally {
-            set({isLoading:false})
+            set({ isLoading: false })
         }
     },
-    getSavedReading: async () =>{
-        set({isLoading:true})
+    getSavedReading: async () => {
+        set({ isLoading: true })
         try {
             const resp = await getSavedReadings()
             set({ saveRead: resp.data.data || [] })
             return resp
         } catch (error) {
-            console.error("Failed to fetch saved readings:", error)
-            set({saveRead:[]})
-        }finally{
-            set({isLoading:false})
+            const errorMessage = error.response?.data?.message || error.message || "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์";
+            toast.error(errorMessage);
+            set({ saveRead: [] })
+        } finally {
+            set({ isLoading: false })
         }
     },
-    getJournal: async (id) =>{
-        set({isLoading:true})
+    getJournal: async (id) => {
+        set({ isLoading: true })
         try {
             const resp = await getJournal(id)
-            set({journalReading:resp.data.data})
+            set({ journalReading: resp.data.data })
             return resp
         } catch (error) {
-            console.error("Failed to fetch journalReading:", error)
-        }finally{
-            set({isLoading:false})
+            const errorMessage = error.response?.data?.message || error.message || "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์";
+            toast.error(errorMessage);
+        } finally {
+            set({ isLoading: false })
         }
     },
-    deleteJournal: async (id) =>{
-        set({isLoading:true})
+    deleteJournal: async (id) => {
+        set({ isLoading: true })
         try {
             const resp = await deleteJournal(id)
             return resp
         } catch (error) {
-            console.error("Failed to delete This journalReading:",error)
-        }finally{
-            set({isLoading:false})
+            const errorMessage = error.response?.data?.message || error.message || "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์";
+            toast.error(errorMessage);
+        } finally {
+            set({ isLoading: false })
         }
     }
 }))

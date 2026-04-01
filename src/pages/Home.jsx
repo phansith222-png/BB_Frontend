@@ -3,7 +3,11 @@ import CardOftheday from "../components/CardOftheday"
 import useReadStore from "../stores/readStores"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect } from "react"
+import { useNavigate } from "react-router"
+import { BookOpen, Compass, Sparkles } from "lucide-react"
 function Home() {
+  const navigate = useNavigate()
+
   const tarotOftheday = useReadStore(state => state.tarotOftheday)
   const dailyCard = useReadStore(state => state.dailyCard)
   const aireading = useReadStore(state => state.aireading)
@@ -25,6 +29,23 @@ function Home() {
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2 } // ดีเลย์ระหว่างแต่ละการ์ด 0.2 วิ
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.6, ease: "easeOut" } 
+    }
   };
 
   return (
@@ -59,10 +80,10 @@ function Home() {
               the cards through the lens of your unique journey, in real-time.
             </p>
             <div className="flex flex-wrap gap-4 mt-4">
-              <button className="px-8 py-3 rounded-full bg-gray-900 text-white hover:bg-gray-700 transition-colors shadow-lg">
+              <button onClick={() => navigate('/reading')} className="px-8 py-3 rounded-full bg-gray-900 text-white hover:bg-gray-700 transition-colors shadow-lg">
                 Start Your Reading
               </button>
-              <button className="px-8 py-3 rounded-full border border-gray-900 text-gray-900 hover:bg-gray-100 transition-colors">
+              <button onClick={() => navigate('/library')} className="px-8 py-3 rounded-full border border-gray-900 text-gray-900 hover:bg-gray-100 transition-colors">
                 Explore the Cards
               </button>
             </div>
@@ -105,7 +126,8 @@ function Home() {
           </motion.div>
         </div>
       </section>
-      <section className="w-full max-w-7xl mx-auto px-6 lg:px-12 py-32">
+      <section className="relative w-full max-w-7xl mx-auto px-6 lg:px-12 py-32 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#B59F84]/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
         <motion.div 
           className="text-center mb-20"
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
@@ -114,50 +136,77 @@ function Home() {
             ทำไมต้องเรียนรู้กับ <span className="text-[#B59F84]">BigBen</span>
           </h2>
           <p className="font-light text-gray-500 text-lg lg:text-xl max-w-2xl mx-auto">
-            เปลี่ยนประสบการณ์การเรียนรู้แบบเดิมที่ต้องท่องจำ ให้กลายเป็นการทำความเข้าใจอย่างลึกซึ้ง...
+            เปลี่ยนประสบการณ์การเรียนรู้แบบเดิมที่ต้องท่องจำ ให้กลายเป็นการทำความเข้าใจอย่างลึกซึ้ง
           </p>
         </motion.div>
+          
+        
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+        <motion.div 
+        className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10" 
+        variants={containerVariants}
+          initial="hidden"
+          whileInView="visible">
           {[
-            { id: "I", title: "AI วิเคราะห์ตามบริบท", desc: "BigBen ไม่ได้แค่สุ่มคำทำนาย แต่จะอ่านไพ่ตามคำถามและตำแหน่งที่คุณกำหนด ช่วยให้คุณเข้าใจความเชื่อมโยงอย่างแท้จริง" },
-            { id: "II", title: "บันทึกและทบทวน", desc: "เก็บทุกคำทำนายไว้ใน Journal ส่วนตัว เพื่อติดตามผลลัพธ์และทบทวนเส้นทางชีวิตของคุณในภายหลัง" },
-            { id: "III", title: "เรียนรู้ผ่านการปฏิบัติ", desc: "ไม่ต้องจำคีย์เวิร์ดตายตัว ระบบจะสอนคุณให้เชื่อมโยงสัญลักษณ์บนไพ่กับสถานการณ์จริงอย่างเป็นธรรมชาติ" }
+            { 
+              icon: <Sparkles className="text-[#B59F84] group-hover:text-white transition-colors duration-500" size={28} />, 
+              title: "AI วิเคราะห์ตามบริบท", 
+              desc: "BigBen ไม่ได้แค่สุ่มคำทำนาย แต่จะอ่านไพ่ตามคำถามและตำแหน่งที่คุณกำหนด ช่วยให้เข้าใจความเชื่อมโยงอย่างแท้จริง" 
+            },
+            { 
+              icon: <BookOpen className="text-[#B59F84] group-hover:text-white transition-colors duration-500" size={28} />, 
+              title: "บันทึกและทบทวน", 
+              desc: "เก็บทุกคำทำนายไว้ใน Journal ส่วนตัว เพื่อติดตามผลลัพธ์และทบทวนเส้นทางชีวิตของคุณในภายหลัง" 
+            },
+            { 
+              icon: <Compass className="text-[#B59F84] group-hover:text-white transition-colors duration-500" size={28} />, 
+              title: "เรียนรู้ผ่านการปฏิบัติ", 
+              desc: "ไม่ต้องจำคีย์เวิร์ดตายตัว ระบบจะสอนคุณให้เชื่อมโยงสัญลักษณ์บนไพ่กับสถานการณ์จริงอย่างเป็นธรรมชาติ" 
+            }
           ].map((item, index) => (
             <motion.div 
               key={index}
-              className="flex flex-col items-center text-center p-10 rounded-[2rem] bg-white border border-gray-100 hover:border-[#B59F84]/30 hover:shadow-2xl hover:shadow-[#B59F84]/5 transition-all duration-500 group"
-              initial={{ opacity: 0, y: 30 }} 
-              whileInView={{ opacity: 1, y: 0 }} 
-              transition={{ duration: 0.5, delay: index * 0.1 }} 
-              viewport={{ once: true }}
+              className="relative flex flex-col items-center text-center p-10 rounded-3xl bg-white/80 backdrop-blur-sm border border-gray-100 hover:border-[#B59F84]/50 shadow-lg shadow-gray-200/20 hover:shadow-2xl hover:shadow-[#B59F84]/10 transition-all duration-500 group"
+              variants={cardVariants}
+              whileHover={{ y: -10 }}
             >
-              <div className="w-16 h-16 rounded-full border border-[#B59F84]/30 flex items-center justify-center mb-8 group-hover:bg-[#B59F84] transition-colors duration-500">
-                <span className="font-cormorant text-2xl font-bold text-[#B59F84] group-hover:text-white">{item.id}</span>
+              <div className="relative w-20 h-20 rounded-full border border-[#B59F84]/30 flex items-center justify-center mb-8 group-hover:bg-[#B59F84] group-hover:border-transparent transition-all duration-500 z-10">
+                {item.icon}
+                <div className="absolute inset-0 bg-[#B59F84] opacity-0 group-hover:opacity-20 blur-xl rounded-full transition-opacity duration-500 -z-10"></div>
               </div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">{item.title}</h3>
+              <h3 className="text-xl font-bold font-cormorant mb-4 text-gray-800">{item.title}</h3>
               <p className="font-light text-gray-500 leading-relaxed text-sm">
                 {item.desc}
               </p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
-      <section className="w-full bg-[#F4F1EA] py-24">
+      <section className="w-full relative py-32 overflow-hidden bg-secondary">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(181,159,132,0.15)_0%,transparent_70%)]"></div>
         <motion.div 
-          className="max-w-4xl mx-auto px-6 text-center flex flex-col items-center gap-8"
-          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+          className="relative max-w-4xl mx-auto px-6 text-center flex flex-col items-center gap-8 z-10"
+          initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} variants={fadeUp}
         >
-          <h2 className="text-3xl lg:text-4xl font-bold font-cormorant tracking-widest uppercase text-gray-900">
+          <h2 className="text-4xl lg:text-6xl font-bold font-cormorant text-white tracking-wide">
             Discover <span className="italic text-[#B59F84]">More</span>
           </h2>
-          <p className="font-light text-gray-600 text-lg">
+          <p className="font-light text-stone-400 text-lg lg:text-xl max-w-xl leading-relaxed">
             หากมีคำถามในใจ หรืออยากเจาะลึกความหมายให้มากกว่าเดิม
           </p>
-          <button className="mt-6 px-12 py-4 rounded-full bg-gray-900 text-white font-light tracking-widest uppercase text-sm hover:bg-[#B59F84] hover:scale-105 duration-500 transition-all shadow-xl">
+          <motion.button onClick={() => navigate('/reading')}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            animate={{ 
+              boxShadow: ["0px 0px 0px rgba(181,159,132,0)", "0px 0px 20px rgba(181,159,132,0.3)", "0px 0px 0px rgba(181,159,132,0)"] 
+            }}
+            transition={{ 
+              boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" } 
+            }}
+            className="mt-8 px-12 py-4 rounded-full bg-[#B59F84] text-secondary font-bold tracking-widest uppercase text-sm hover:bg-[#cbb599] transition-colors">
             เริ่มเปิดไพ่กับ BigBen
-          </button>
+          </motion.button>
         </motion.div>
       </section>
 

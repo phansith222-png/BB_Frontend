@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { aiInterpret, cutCard, getAllSpread, getSpreadIdApi, initialRead, pickCard, shuffleCard } from "../api/mainapi";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { toast } from "react-toastify";
 
 
 const useReadStore = create(persist((set, get) => ({
@@ -15,7 +16,7 @@ const useReadStore = create(persist((set, get) => ({
     isLoading: false,
     isflipped: false,
     isDaily: false,
-    dailyDeckOrder:[],
+    dailyDeckOrder: [],
     dailyCard: {},
     dailyIsreversed: false,
     dailyAi: null,
@@ -121,7 +122,7 @@ const useReadStore = create(persist((set, get) => ({
         const today = new Date().toDateString();
         if (get().isLoading) {
             console.log("กำลังโหลดไพ่... ห้ามกดซ้ำ!");
-            return; 
+            return;
         }
         if (get().lastDrawnDate === today && get().isDaily === true) {
             return;
@@ -140,21 +141,21 @@ const useReadStore = create(persist((set, get) => ({
                 const savedCardInfo = oldReading?.deckOrder?.[0];
                 console.log('initResp', initResp)
                 const pickResp = await pickCard({
-                        readingId: oldReading.id,
-                        selectId: [{ 
-                            id: savedCardInfo.id, 
-                            isReversed: savedCardInfo.isReversed 
-                        }]
-                    });
-                    console.log('pickResp', pickResp)
+                    readingId: oldReading.id,
+                    selectId: [{
+                        id: savedCardInfo.id,
+                        isReversed: savedCardInfo.isReversed
+                    }]
+                });
+                console.log('pickResp', pickResp)
                 set({
-                        dailyCard: pickResp.data.card, 
-                        dailyIsreversed: savedCardInfo.isReversed,
-                        dailyAi: oldReading.aiInterpretation,
-                        isDaily: true,
-                        isflipped: true,
-                        lastDrawnDate: today
-                    });
+                    dailyCard: pickResp.data.card,
+                    dailyIsreversed: savedCardInfo.isReversed,
+                    dailyAi: oldReading.aiInterpretation,
+                    isDaily: true,
+                    isflipped: true,
+                    lastDrawnDate: today
+                });
                 return;
             }
             const rId = initResp.data.data.readingId
@@ -174,7 +175,7 @@ const useReadStore = create(persist((set, get) => ({
             const finalDeck = cutResp.data.deckOrder;
             const pickResp = await pickCard({
                 readingId: rId,
-                selectId: [finalDeck [0]]
+                selectId: [finalDeck[0]]
             });
             // console.log('pickResp', pickResp.data.card)
             const cardData = pickResp.data.card
@@ -194,7 +195,8 @@ const useReadStore = create(persist((set, get) => ({
             set({ lastDrawnDate: today })
         } catch (error) {
             set({ isLoading: false });
-            console.error("Sequence Error:", error);
+            const errorMessage = error.response?.data?.message || error.message || "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์";
+            toast.error(errorMessage);
             throw error;
         } finally {
             set({ isLoading: false });

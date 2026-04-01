@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, } from "react";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router";
 import UserLayout from "../layouts/UserLayout";
 import useUserStore from "../stores/userStores";
@@ -72,6 +72,7 @@ const userRouter = createBrowserRouter([
         ]
     }
 ])
+
 
 function AppRouter() {
     const user = useUserStore(state => state.user)
