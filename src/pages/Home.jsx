@@ -88,7 +88,7 @@ function Home() {
               </button>
             </div>
           </motion.div>
-\
+
           <motion.div 
             className="flex-1 w-full"
             initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
@@ -103,7 +103,6 @@ function Home() {
           </motion.div>
         </div>
       </section>
-\
       <section className="w-full bg-[#E9E1D8] py-24">
         <div className="max-w-5xl mx-auto px-6 flex flex-col items-center gap-10">
           <motion.div 

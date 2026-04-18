@@ -61,3 +61,54 @@
   --radius-selector: 0.5rem;
   --radius-field: 0.75rem; /* ทำให้ช่อง Input ดูโค้งมนละมุนขึ้น (rounded-xl) */
   --radius-box: 1.5rem; /* ทำให้กล่อง Component ใหญ่ๆ โค้งมนเข้ากับดีไซน์ (rounded-3xl) */
+
+  .custom-toast {
+  background-color: rgba(255, 255, 255, 0.85) !important; /* พื้นหลังสีขาวโปร่งแสง */
+  backdrop-filter: blur(10px) !important;              /* เพิ่มเอฟเฟกต์กระจกเบลอๆ */
+  color: #334155 !important;                           /* สีตัวอักษรสีเทาเข้ม (slate-700) ดูสบายตา */
+  border: 1px solid rgba(147, 197, 253, 0.4) !important; /* ขอบสีฟ้าอ่อนๆ (blue-300) */
+  border-radius: 100px !important;                     /* ขอบมนเป็นทรงแคปซูล */
+  box-shadow: 0 10px 25px -5px rgba(147, 197, 253, 0.2), 0 0 10px rgba(255, 255, 255, 0.8) !important; /* เงาฟุ้งสีฟ้าอ่อน สบายตา */
+  font-family: inherit !important;
+  padding: 12px 24px !important;
+  min-height: auto !important;
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+/* จัดปุ่มกากบาทปิด */
+.custom-toast .Toastify__close-button {
+  color: #94A3B8 !important; /* สีกากบาทสีเทาอ่อน */
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  align-self: center;
+}
+
+.custom-toast .Toastify__close-button:hover {
+  opacity: 1;
+  color: #64748B !important; /* เวลา Hover ให้เข้มขึ้นนิดนึง */
+  transform: scale(1.1);
+}
+
+/* แต่งไอคอนด้านหน้า */
+.custom-toast .Toastify__toast-icon {
+  margin-right: 12px;
+}
+
+/* รวบรวมข้อความตรงกลาง */
+.custom-toast .Toastify__toast-body {
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem; 
+  font-weight: 400;    /* ปรับให้หนาขึ้นกว่าธีมดำนิดนึง เพื่อให้อ่านง่ายบนพื้นขาว */
+  letter-spacing: 0.05em;
+}
+
+/* ปรับสีไอคอนตามสถานะให้ดูซอฟต์ลงแบบพาสเทล */
+.Toastify__toast--success .Toastify__toast-icon svg {
+  fill: #7DD3FC !important; /* เปลี่ยนไอคอน Success เป็นสีฟ้าละมุน (sky-300) */
+}
+
+.Toastify__toast--error .Toastify__toast-icon svg {
+  fill: #FCA5A5 !important; /* เปลี่ยนไอคอน Error เป็นสีแดงพาสเทล (red-300) */
+}

@@ -16,7 +16,7 @@ function Shuffle() {
     const [isShuffled, setIsShuffled] = useState(false)
     const [isAnimating, setIsAnimating] = useState(false)
     const [cutPosition, setCutPosition] = useState("");
-
+    const [error, setError] = useState("")
     const hdlShuffle = async () => {
         if (isLoading || isAnimating) return;
 
@@ -42,7 +42,7 @@ function Shuffle() {
 
     const hdlCut = async () => {
         if (!cutPosition || cutPosition < 1 || cutPosition > 78) {
-            alert("please provide position to cut");
+            toast.error("please provide position to cut between 1-78");
             return
         }
         try {
@@ -52,7 +52,7 @@ function Shuffle() {
             });
             setStep('PICK')
         } catch (error) {
-            console.dir(error)
+            // console.dir(error)
             const errMsg = err.response?.data.message || err.message
             toast.error(errMsg)
         }

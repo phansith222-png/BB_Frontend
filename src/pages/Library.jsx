@@ -117,24 +117,24 @@ function Library() {
                     <motion.div layout className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12 max-w-7xl w-full '>
                         <AnimatePresence mode="popLayout">
                             {filteredCards.length > 0 ? (
-                                
-                                    filteredCards.map((e) => (
-                                        <motion.div
-                                            layout key={e.id} variants={cardAnimation} initial="hidden"
-                                            animate="visible"
-                                            exit="exit"
-                                            className="w-full">
-                                            <TarotCard
-                                                key={e.id}
-                                                id={e.id}
-                                                name={e.name}
-                                                img_url={e.img_url}
-                                                reverse_Mean={e.reverse_Mean}
-                                                upright_Mean={e.upright_Mean}
-                                            />
-                                        </motion.div>
-                                    ))
-                                
+
+                                filteredCards.map((e) => (
+                                    <motion.div
+                                        layout key={e.id} variants={cardAnimation} initial="hidden"
+                                        animate="visible"
+                                        exit="exit"
+                                        className="w-full">
+                                        <TarotCard
+                                            key={e.id}
+                                            id={e.id}
+                                            name={e.name}
+                                            img_url={e.img_url}
+                                            reverse_Mean={e.reverse_Mean}
+                                            upright_Mean={e.upright_Mean}
+                                        />
+                                    </motion.div>
+                                ))
+
                             ) : (
                                 <motion.div
                                     initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}

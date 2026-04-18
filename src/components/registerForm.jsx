@@ -28,7 +28,7 @@ function RegisterForm() {
         } catch (error) {
             console.dir(error)
             const errMsg = error.response.data?.message || error.message
-            toast.error(errMsg, { transition: Slide, autoClose: 3000 })
+            toast.error(errMsg)
         }
     }
     return (
