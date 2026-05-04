@@ -3,14 +3,18 @@ import { motion } from 'framer-motion'
 import { Dropdown } from '../icons'
 import { useNavigate } from 'react-router'
 import { ArrowRight, Book } from 'lucide-react'
+import useReadStore from '../stores/readStores'
 function Spread(props) {
     const { id, name, cardCount, spreadType } = props
+
+    const setStep = useReadStore(state=>state.setStep)
 
     const navigate = useNavigate()
 
     const handleSelectSpread = () => {
         window.scrollTo(0, 0)
         navigate(`/reading/session?spreadId=${id}`)
+        setStep("QUESTION")
     }
 
     return (
