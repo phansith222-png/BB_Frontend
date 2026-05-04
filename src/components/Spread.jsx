@@ -16,7 +16,7 @@ function Spread(props) {
         navigate(`/reading/session?spreadId=${id}`)
         setStep("QUESTION")
     }
-
+    
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
