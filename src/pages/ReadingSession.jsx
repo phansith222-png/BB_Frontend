@@ -3,7 +3,7 @@ import  { useState } from 'react'
 import useReadStore from '../stores/readStores';
 import Question from '../components/Question';
 import Shuffle from '../components/Shuffle';
-import Pick from '../components/pick';
+import Pick from '../components/Pick';
 import Result from '../components/Result';
 
 function ReadingSession() {
