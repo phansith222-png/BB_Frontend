@@ -213,44 +213,7 @@ npm run dev
 
 ## API Reference
 
-All endpoints are prefixed with `/api`. JWT token must be sent as `Authorization: Bearer <token>`.
-
-### Authentication
-| Method | Path | Auth | Body | Description |
-|---|---|---|---|---|
-| `POST` | `/auth/register` | None | `identity, username, password, confirmPassword, firstName?, lastName?, zodiac?, dateOfBirth?` | Register new user |
-| `POST` | `/auth/login` | None | `username, password` | Login — returns `token`, `user`, `profile` |
-
-### User
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `GET` | `/users/me` | Required | Get own profile |
-| `PATCH` | `/users/me` | Required | Update profile (name, zodiac, dateOfBirth, profileImage) |
-| `GET` | `/users/history` | Required | All past readings |
-| `POST` | `/users/saved-readings` | Required | Save a reading to journal |
-| `GET` | `/users/saved-readings` | Required | List all saved readings |
-| `GET` | `/users/saved-readings/:readingId` | Required | Get one saved reading with detail |
-| `DELETE` | `/users/saved-readings/:readingId` | Required | Delete a saved reading |
-
-### Card Library
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `GET` | `/cards` | Required | List all 78 cards |
-| `GET` | `/cards/:id` | Required | Get single card with full detail |
-
-### Readings
-> `Optional*` — works without auth (guest mode), but saves history when authenticated.
-
-| Method | Path | Auth | Body | Description |
-|---|---|---|---|---|
-| `POST` | `/readings/init` | Optional* | `spreadId, question?` | Start a new reading session |
-| `POST` | `/readings/shuffle` | Optional* | `readingId, times` | Shuffle the deck |
-| `POST` | `/readings/cut` | Optional* | `readingId, position` | Cut the deck |
-| `POST` | `/readings/pick` | Optional* | `readingId, SelectId` | Pick a card |
-| `POST` | `/readings/ai-interpret` | Optional* | `readingId` | Request AI interpretation |
-| `GET` | `/readings/spread` | Optional* | — | List all spread types |
-| `GET` | `/readings/spread/:id` | Optional* | — | Get spread detail |
-| `GET` | `/readings/share-image/:readingId` | Optional* | — | Generate shareable PNG image |
+API documentation is available to authorised contributors only. Contact the project maintainer for access.
 
 ---
 
