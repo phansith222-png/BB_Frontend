@@ -20,10 +20,9 @@ function Home() {
   }, [checkDailyReset]);
   const hdlTarotOftheday = async () => {
     try {
-      const resp = await tarotOftheday()
+      await tarotOftheday()
     } catch (err) {
       console.dir(err)
-      toast.error(err.response?.data.message || err.message)
     }
   }
   const fadeUp = {

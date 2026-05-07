@@ -134,31 +134,36 @@ const useReadStore = create(persist((set, get) => ({
                 question: "ไพ่ประจำวันของฉันวันนี้คืออะไร?",
                 isDaily: true
             });
+            let rId;
             if (initResp.data?.isAlreadyDrawn) {
-
                 const oldReading = initResp.data.data;
                 console.log('oldReading', oldReading)
                 const savedCardInfo = oldReading?.deckOrder?.[0];
                 console.log('initResp', initResp)
-                const pickResp = await pickCard({
-                    readingId: oldReading.id,
-                    selectId: [{
-                        id: savedCardInfo.id,
-                        isReversed: savedCardInfo.isReversed
-                    }]
-                });
-                console.log('pickResp', pickResp)
-                set({
-                    dailyCard: pickResp.data.card,
-                    dailyIsreversed: savedCardInfo.isReversed,
-                    dailyAi: oldReading.aiInterpretation,
-                    isDaily: true,
-                    isflipped: true,
-                    lastDrawnDate: today
-                });
-                return;
+                if (savedCardInfo) {
+                    const pickResp = await pickCard({
+                        readingId: oldReading.id,
+                        selectId: [{
+                            id: savedCardInfo.id,
+                            isReversed: savedCardInfo.isReversed
+                        }]
+                    });
+                    console.log('pickResp', pickResp)
+                    set({
+                        dailyCard: pickResp.data.card,
+                        dailyIsreversed: savedCardInfo.isReversed,
+                        dailyAi: oldReading.aiInterpretation,
+                        isDaily: true,
+                        isflipped: true,
+                        lastDrawnDate: today
+                    });
+                    return;
+                }
+                // Incomplete reading (no deck yet) — re-draw using the existing reading ID
+                rId = oldReading.id;
+            } else {
+                rId = initResp.data.data.readingId;
             }
-            const rId = initResp.data.data.readingId
             const shuffleResp = await shuffleCard({
                 readingId: rId,
                 times: Math.floor(Math.random() * 100) + 1,
