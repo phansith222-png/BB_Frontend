@@ -8,11 +8,14 @@ function Result() {
     const setStep = useReadStore(state => state.setStep)
     const card = useReadStore(state => state.card)
     const aiReading = useReadStore(state => state.aiReading)
+    const aiError = useReadStore(state => state.aiError)
+    const isLoading = useReadStore(state => state.isLoading)
+    const regenerateInterpret = useReadStore(state => state.regenerateInterpret)
     const readingId = useReadStore(state => state.readingId)
     const deckOrder = useReadStore(state => state.deckOrder)
 
     const saveReading = useSaveReadingstore(state => state.saveReading)
-    
+
     const [isSaved, setIsSaved] = useState(false);
     const [note, setNote] = useState("");
     const handleSaveReading = async () => {
@@ -22,14 +25,68 @@ function Result() {
             note:note
         }
         const resp = await saveReading(payload)
-        // Axios หา saved read
         setIsSaved(true)
         } catch (error) {
             console.error("Save failed",error)
             toast.error("Please try again later")
         }
-        
+
     }
+
+    const renderAiSection = () => {
+        if (aiReading?.data) {
+            return (
+                <div className="flex flex-col gap-6 text-left">
+                    <div className="flex flex-col md:flex-row items-center gap-4 bg-base-100 p-4 rounded-xl border border-base-300 shadow-sm w-full">
+                        <span className="text-sm font-bold text-base-content/70 uppercase tracking-widest whitespace-nowrap">
+                            พลังงานภาพรวม (Energy)
+                        </span>
+                        <progress
+                            className={`progress w-full h-3 ${aiReading.data.mood_score >= 70 ? 'progress-success' :
+                                    aiReading.data.mood_score >= 40 ? 'progress-warning' :
+                                        'progress-error'
+                                }`}
+                            value={aiReading.data.mood_score}
+                            max="100"
+                        ></progress>
+                        <span className="font-bold text-xl font-cormorant text-base-content w-12 text-right">
+                            {aiReading.data.mood_score}%
+                        </span>
+                    </div>
+                    <h3 className="text-base-content/80 leading-loose font-bold text-lg md:text-xl whitespace-pre-wrap">
+                        "{aiReading.data.summary}"
+                    </h3>
+                    <div className="text-base-content/80 leading-loose font-light text-lg md:text-xl whitespace-pre-wrap">
+                        {aiReading.data.detail}
+                    </div>
+                </div>
+            )
+        }
+        if (aiError) {
+            return (
+                <div className="flex flex-col justify-center items-center py-12 gap-5 text-center">
+                    <p className="font-cormorant text-xl text-base-content/70">BigBen couldn't reach the stars this time...</p>
+                    <button
+                        disabled={isLoading}
+                        onClick={regenerateInterpret}
+                        className="px-8 py-3 bg-[#B59F84] text-white rounded-full font-bold hover:bg-[#a08a70] shadow-md transition-all disabled:opacity-50"
+                    >
+                        {isLoading
+                            ? <span className="flex items-center gap-2"><span className="loading loading-spinner loading-sm"></span> Trying again...</span>
+                            : "Regenerate Reading"
+                        }
+                    </button>
+                </div>
+            )
+        }
+        return (
+            <div className="flex flex-col justify-center items-center py-16 opacity-60 gap-4">
+                <span className="loading loading-ring loading-lg text-primary"></span>
+                <p className="font-cormorant text-xl animate-pulse">BigBen is writing your destiny...</p>
+            </div>
+        )
+    }
+
     return (
         <motion.div key="r" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="flex flex-col gap-8 w-full text-center max-w-5xl mx-auto pb-20">
             <h1 className="text-4xl font-bold font-cormorant text-base-content tracking-wider uppercas">BigBen's Insight</h1>
@@ -42,7 +99,7 @@ function Result() {
                         const matchedCardIndeck = deckOrder.find(deckcard => deckcard.id === c.id)
                         const isCardReversed = matchedCardIndeck ? matchedCardIndeck.isReversed : false;
                         return (
-                            <div className='flex flex-col items-center gap-3 w-28 md:w-36'>
+                            <div key={index} className='flex flex-col items-center gap-3 w-28 md:w-36'>
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -70,39 +127,7 @@ function Result() {
                     })}
                 </div>
                 <div className="bg-base-200/50 p-6 md:p-8 rounded-2xl border border-base-200 shadow-inner w-full">
-                    {aiReading?.data ? (
-                        <div className="flex flex-col gap-6 text-left">
-                            <div className="flex flex-col md:flex-row items-center gap-4 bg-base-100 p-4 rounded-xl border border-base-300 shadow-sm w-full">
-                                <span className="text-sm font-bold text-base-content/70 uppercase tracking-widest whitespace-nowrap">
-                                    พลังงานภาพรวม (Energy)
-                                </span>
-                                <progress
-                                    className={`progress w-full h-3 ${aiReading.data.mood_score >= 70 ? 'progress-success' :
-                                            aiReading.data.mood_score >= 40 ? 'progress-warning' :
-                                                'progress-error'
-                                        }`}
-                                    value={aiReading.data.mood_score}
-                                    max="100"
-                                ></progress>
-
-                                <span className="font-bold text-xl font-cormorant text-base-content w-12 text-right">
-                                    {aiReading.data.mood_score}%
-                                </span>
-                            </div>
-                            <h3 className="text-base-content/80 leading-loose font-bold text-lg md:text-xl whitespace-pre-wrap">
-                                "{aiReading.data.summary}"
-                            </h3>
-                            <div className="text-base-content/80 leading-loose font-light text-lg md:text-xl whitespace-pre-wrap">
-                                {aiReading.data.detail}
-                            </div>
-
-                        </div>
-                    ) : (
-                        <div className="flex flex-col justify-center items-center py-16 opacity-60 gap-4">
-                            <span className="loading loading-ring loading-lg text-primary"></span>
-                            <p className="font-cormorant text-xl animate-pulse">BigBen is writing your destiny...</p>
-                        </div>
-                    )}
+                    {renderAiSection()}
                 </div>
             </div>
             {!isSaved ? (

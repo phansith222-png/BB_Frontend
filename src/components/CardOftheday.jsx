@@ -6,13 +6,12 @@ function CardOftheday(props) {
     const card = dailyCard?.[0]
     const dailyIsreversed = useReadStore(state => state.dailyIsreversed)
     const dailyAi = useReadStore(state => state.dailyAi)
-    console.log('card', card)
-    console.log('dailyIsreversed', dailyIsreversed)
+    const dailyAiError = useReadStore(state => state.dailyAiError)
+    const regenerateDailyAi = useReadStore(state => state.regenerateDailyAi)
+    const isLoading = useReadStore(state => state.isLoading)
+
     const currentMeaning = dailyIsreversed ? card?.reverse_Mean : card?.upright_Mean;
-    // const meaningArray = currentMeaning.split(',')
-    // const meaningSplited = meaningArray.map(item => item.trim())
     const meaningArray = currentMeaning ? currentMeaning.split(',').map(item => item.trim()) : []
-    // console.log(meaningSplited)
 
     return (
         <>
@@ -69,7 +68,6 @@ function CardOftheday(props) {
                     <AnimatePresence>
                         {isflipped && dailyAi && (
                             <motion.div
-
                                 key="ai-insight"
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -84,10 +82,35 @@ function CardOftheday(props) {
                                         Mood Energy: <span className="text-[#B59F84]">{dailyAi.mood_score}%</span>
                                     </p>
                                 </div>
-
                                 <p className="font-light text-gray-700 leading-relaxed text-lg max-w-lg mt-2">
                                     {dailyAi.summary}
                                 </p>
+                            </motion.div>
+                        )}
+                        {isflipped && dailyAiError && !dailyAi && (
+                            <motion.div
+                                key="ai-error"
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.8 }}
+                                className="w-full bg-white/80 backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-xl text-center flex flex-col items-center gap-4"
+                            >
+                                <h3 className="text-xl font-bold font-cormorant text-gray-900 tracking-wide">
+                                    BigBen's Insight
+                                </h3>
+                                <p className="font-light text-gray-500 text-base">
+                                    BigBen couldn't connect to the stars...
+                                </p>
+                                <button
+                                    disabled={isLoading}
+                                    onClick={(e) => { e.stopPropagation(); regenerateDailyAi(); }}
+                                    className="px-8 py-3 bg-[#B59F84] text-white rounded-full font-bold hover:bg-[#a08a70] shadow-md transition-all disabled:opacity-50"
+                                >
+                                    {isLoading
+                                        ? <span className="flex items-center gap-2"><span className="loading loading-spinner loading-sm"></span> Connecting...</span>
+                                        : "Try Again"
+                                    }
+                                </button>
                             </motion.div>
                         )}
                     </AnimatePresence>

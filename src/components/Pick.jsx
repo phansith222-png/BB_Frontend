@@ -33,12 +33,16 @@ function Pick() {
                 readingId: readingId,
                 selectId: selectedPayload
             })
-            await aiInterpret({
-                readingId: readingId,
-                spreadType: pickResp.data.spreadType || "General Spread",
-                question: pickResp.data.question || "ไม่ระบุคำถาม",
-                card: pickResp.data.card
-            })
+            try {
+                await aiInterpret({
+                    readingId: readingId,
+                    spreadType: pickResp.data.spreadType || "General Spread",
+                    question: pickResp.data.question || "ไม่ระบุคำถาม",
+                    card: pickResp.data.card
+                })
+            } catch {
+                // aiError set in store — still proceed to show Result with Regenerate button
+            }
             setStep('RESULT')
         } catch (error) {
             console.error(error);

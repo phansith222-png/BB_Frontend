@@ -27,6 +27,8 @@ export const pickCard = (body) => mainapi.post('/readings/pick',body)
 
 export const aiInterpret = (body) => mainapi.post(`/readings/ai-interpret`,body)
 
+export const regenerateInterpret = (body) => mainapi.post('/readings/ai-interpret', body)
+
 export const getAllSpread = () => mainapi.get('/readings/spread')
  
 export const getSpreadIdApi = (id) => mainapi.get(`/readings/spread/${id}`)

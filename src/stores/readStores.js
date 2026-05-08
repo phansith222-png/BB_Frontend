@@ -13,6 +13,8 @@ const useReadStore = create(persist((set, get) => ({
     allSpread: null,
     card: [],
     aiReading: null,
+    aiError: false,
+    lastAiPayload: null,
     isLoading: false,
     isflipped: false,
     isDaily: false,
@@ -20,9 +22,16 @@ const useReadStore = create(persist((set, get) => ({
     dailyCard: {},
     dailyIsreversed: false,
     dailyAi: null,
+    dailyAiError: false,
+    dailyAiPayload: null,
     lastDrawnDate: null,
     setReadingId: (readingId) => set({ readingId: readingId }),
-    setStep: (newStep) => set({ step: newStep }),
+    setStep: (newStep) => {
+        const reset = newStep === "QUESTION"
+            ? { aiReading: null, aiError: false, lastAiPayload: null, card: [] }
+            : {};
+        set({ step: newStep, ...reset });
+    },
     setReversed: (value) => set({ isReversed: value }),
     checkDailyReset: () => {
         const today = new Date().toDateString();
@@ -31,6 +40,8 @@ const useReadStore = create(persist((set, get) => ({
                 dailyCard: {},
                 dailyIsreversed: false,
                 dailyAi: null,
+                dailyAiError: false,
+                dailyAiPayload: null,
                 isflipped: false,
                 lastDrawnDate: null,
                 isDaily: false
@@ -42,6 +53,8 @@ const useReadStore = create(persist((set, get) => ({
             dailyCard: {},
             dailyIsreversed: false,
             dailyAi: null,
+            dailyAiError: false,
+            dailyAiPayload: null,
             isflipped: false,
             lastDrawnDate: null,
             isDaily: false
@@ -109,11 +122,38 @@ const useReadStore = create(persist((set, get) => ({
         }
     },
     aiInterpret: async (body) => {
+        set({ isLoading: true, lastAiPayload: body })
+        try {
+            const resp = await aiInterpret(body)
+            set({ aiReading: resp.data, aiError: false })
+            return resp
+        } catch (error) {
+            set({ aiError: true })
+            throw error
+        } finally {
+            set({ isLoading: false })
+        }
+    },
+    regenerateInterpret: async () => {
+        const body = get().lastAiPayload;
         set({ isLoading: true })
         try {
             const resp = await aiInterpret(body)
-            set({ aiReading: resp.data })
-            return resp
+            set({ aiReading: resp.data, aiError: false })
+        } catch {
+            set({ aiError: true })
+        } finally {
+            set({ isLoading: false })
+        }
+    },
+    regenerateDailyAi: async () => {
+        const body = get().dailyAiPayload;
+        set({ isLoading: true })
+        try {
+            const resp = await aiInterpret(body)
+            set({ dailyAi: resp.data.data, dailyAiError: false })
+        } catch {
+            set({ dailyAiError: true })
         } finally {
             set({ isLoading: false })
         }
@@ -159,7 +199,6 @@ const useReadStore = create(persist((set, get) => ({
                     });
                     return;
                 }
-                // Incomplete reading (no deck yet) — re-draw using the existing reading ID
                 rId = oldReading.id;
             } else {
                 rId = initResp.data.data.readingId;
@@ -169,9 +208,7 @@ const useReadStore = create(persist((set, get) => ({
                 times: Math.floor(Math.random() * 100) + 1,
                 allowReversed: true
             });
-            // console.log('shuffleResp', shuffleResp)
             const currentDeck = shuffleResp.data.deckOrder;
-            // console.log('currentDeck', currentDeck)
             const randomPos = Math.floor(Math.random() * 78) + 1;
             const cutResp = await cutCard({
                 readingId: rId,
@@ -182,22 +219,25 @@ const useReadStore = create(persist((set, get) => ({
                 readingId: rId,
                 selectId: [finalDeck[0]]
             });
-            // console.log('pickResp', pickResp.data.card)
             const cardData = pickResp.data.card
             const isReversedStatus = finalDeck[0].isReversed
-            // console.log(typeof(isReversedStatus))
             set({ dailyCard: cardData, dailyIsreversed: isReversedStatus })
-            const aiReadingDaily = await aiInterpret({
+
+            const aiPayload = {
                 readingId: rId,
                 spreadType: "TarotOfTheDay",
                 question: "ไพ่ประจำวันของฉันวันนี้คืออะไร?",
                 card: cardData,
-            });
-            console.log(aiReadingDaily.data.data)
-            set({ dailyAi: aiReadingDaily.data.data })
-            set({ isDaily: true })
-            set({ isLoading: false, isflipped: true })
-            set({ lastDrawnDate: today })
+            };
+            try {
+                const aiReadingDaily = await aiInterpret(aiPayload);
+                console.log(aiReadingDaily.data.data)
+                set({ dailyAi: aiReadingDaily.data.data, dailyAiError: false })
+            } catch {
+                set({ dailyAiError: true, dailyAiPayload: aiPayload })
+            }
+
+            set({ isDaily: true, isflipped: true, lastDrawnDate: today, isLoading: false })
         } catch (error) {
             set({ isLoading: false });
             const errorMessage = error.response?.data?.message || error.message || "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์";
@@ -214,6 +254,8 @@ const useReadStore = create(persist((set, get) => ({
         dailyCard: state.dailyCard,
         dailyIsreversed: state.dailyIsreversed,
         dailyAi: state.dailyAi,
+        dailyAiError: state.dailyAiError,
+        dailyAiPayload: state.dailyAiPayload,
         isflipped: state.isflipped,
         lastDrawnDate: state.lastDrawnDate,
         isDaily: state.isDaily
