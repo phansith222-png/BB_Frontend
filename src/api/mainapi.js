@@ -49,3 +49,9 @@ export const getAllhistory = () =>mainapi.get('/users/history')
 
 
 export const getCard = () => mainapi.get('/cards')
+
+export const shareReadingImage = (readingId, mode = 'feed') =>
+  mainapi.get(`/readings/share-image/${readingId}`, {
+    params: { mode },
+    responseType: 'blob',
+  })

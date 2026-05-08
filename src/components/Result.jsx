@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Share2 } from 'lucide-react'
 import { pageVariants } from './pageVariants'
 import useReadStore from '../stores/readStores';
 import useSaveReadingstore from '../stores/saveReadingStores';
 import { toast } from 'react-toastify';
+import ShareImageModal from './ShareImageModal';
 function Result() {
     const setStep = useReadStore(state => state.setStep)
     const card = useReadStore(state => state.card)
@@ -18,6 +20,7 @@ function Result() {
 
     const [isSaved, setIsSaved] = useState(false);
     const [note, setNote] = useState("");
+    const [shareOpen, setShareOpen] = useState(false);
     const handleSaveReading = async () => {
         try {
             const payload = {
@@ -130,6 +133,17 @@ function Result() {
                     {renderAiSection()}
                 </div>
             </div>
+            {aiReading?.data && (
+                <div className="flex justify-center">
+                    <button
+                        onClick={() => setShareOpen(true)}
+                        className="px-8 py-3 bg-[#B59F84] text-white rounded-full font-bold hover:bg-[#a08a70] shadow-md transition-all flex items-center gap-2"
+                    >
+                        <Share2 size={16} />
+                        แชร์การดูดวง
+                    </button>
+                </div>
+            )}
             {!isSaved ? (
                 <div className="bg-white border border-gray-200 p-6 rounded-3xl shadow-sm text-left mx-auto w-full max-w-4xl">
                     <h3 className="text-2xl font-bold font-cormorant text-gray-900 mb-2">Save to Journal</h3>
@@ -158,6 +172,7 @@ function Result() {
             <button onClick={() => setStep('QUESTION')} className='px-8 py-3 border border-gray-900 text-gray-900 rounded-full font-semibold hover:bg-gray-50 hover:shadow-md transition-all mx-auto'>
                 กลับไปหน้าหลัก
             </button>
+            <ShareImageModal readingId={readingId} isOpen={shareOpen} onClose={() => setShareOpen(false)} />
         </motion.div>
     )
 }

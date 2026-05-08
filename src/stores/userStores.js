@@ -6,6 +6,8 @@ import { toast } from "react-toastify"
 const useUserStore = create(
     persist(
         (set, get) => ({
+            _hasHydrated: false,
+            setHasHydrated: (val) => set({ _hasHydrated: val }),
             user: null,
             token: '',
             profile: null,
@@ -33,7 +35,10 @@ const useUserStore = create(
         }),
         {
             name: 'userState',
-            storage: createJSONStorage(() => localStorage)
+            storage: createJSONStorage(() => localStorage),
+            onRehydrateStorage: () => (state) => {
+                state?.setHasHydrated(true)
+            }
         }
     )
 )

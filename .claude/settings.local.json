@@ -16,7 +16,8 @@
       "WebFetch(domain:polaris-react.shopify.com)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git commit -m 'Add AI error recovery with regenerate button *)"
+      "Bash(git commit -m 'Add AI error recovery with regenerate button *)",
+      "Bash(git commit -m 'Improve RegisterForm and Login UX *)"
     ]
   }
 }

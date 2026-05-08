@@ -74,18 +74,26 @@ const userRouter = createBrowserRouter([
 ])
 
 
+function LoadingFallback() {
+    return (
+        <div className="flex min-h-screen w-full items-center justify-center bg-base-200/30">
+            <div className="flex flex-col items-center gap-4 p-20 rounded-3xl bg-white">
+                <span className="loading loading-ring loading-xl text-primary scale-150"></span>
+                <span className="text-sm font-medium text-base-content italic">Please wait ...</span>
+            </div>
+        </div>
+    )
+}
+
 function AppRouter() {
     const user = useUserStore(state => state.user)
+    const hasHydrated = useUserStore(state => state._hasHydrated)
+
+    if (!hasHydrated) return <LoadingFallback />
+
     const finalRouter = user ? userRouter : guestRouter
     return (
-        <Suspense fallback={
-            <div className="flex min-h-screen w-full items-center justify-center bg-base-200/30">
-                <div className="flex flex-col items-center gap-4 p-20 rounded-3xl bg-white">
-                    <span className="loading loading-ring loading-xl text-primary scale-150"></span>
-                    <span className="text-sm font-medium text-base-content italic">Please wait ...</span>
-                </div>
-            </div>
-        }>
+        <Suspense fallback={<LoadingFallback />}>
             <RouterProvider key={user?.id} router={finalRouter} />
         </Suspense>
     )

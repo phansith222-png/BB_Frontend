@@ -18,9 +18,8 @@ function Login() {
   const { errors, isSubmitting } = formState
   const onSubmit = async (body) => {
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000))
       const resp = await login(body)
-      toast.success(JSON.stringify(resp.data.message))
+      toast.success(resp.data.message)
       reset()
     } catch (err) {
       console.dir(err)
