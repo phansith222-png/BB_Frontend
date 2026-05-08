@@ -1,5 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Star } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
+import { Eye, EyeOff, Star } from "lucide-react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { loginSchema } from "../validations/schema"
 import useUserStore from "../stores/userStores"
@@ -8,9 +10,10 @@ import RegisterForm from "../components/RegisterForm"
 
 function Login() {
   const login = useUserStore(state => state.login)
+  const [showPassword, setShowPassword] = useState(false)
   const { register, handleSubmit, formState, reset } = useForm({
     resolver: zodResolver(loginSchema),
-    mode: "onSubmit"
+    mode: "onTouched"
   })
   const { errors, isSubmitting } = formState
   const onSubmit = async (body) => {
@@ -46,24 +49,52 @@ function Login() {
               <div className='form-control'>
                 <label className="floating-label transition-all duration-300">
                   <span className="text-gray-500 font-medium">Username</span>
-                  <input type="text" placeholder="Username" className=" input input-lg w-full bg-white border-gray-200 focus:border-[#B59F84] focus:ring-1 focus:ring-[#B59F84] transition-all duration-300 rounded-xl" 
+                  <input type="text" placeholder="Username" className={`input input-lg w-full bg-white border-gray-200 focus:border-[#B59F84] focus:ring-1 focus:ring-[#B59F84] transition-all duration-300 rounded-xl ${errors.username ? 'input-error' : ''}`}
                   {...register('username')}/>
-                  <p className="text-sm text-error mt-1 ml-1">{errors.username?.message}</p>
+                  <AnimatePresence>
+                    {errors.username?.message && (
+                      <motion.p key="username-err" className="text-sm text-error mt-1 ml-1"
+                        initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}>
+                        {errors.username.message}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </label>
               </div>
               <div className="form-control">
                 <label className="floating-label transition-all duration-300">
                   <span className="text-gray-500 font-medium">Password</span>
-                  <input type="password" placeholder="Password" className="input input-lg w-full bg-white border-gray-200 focus:border-[#B59F84] focus:ring-1 focus:ring-[#B59F84] transition-all duration-300 rounded-xl" 
-                  {...register('password')}/>
-                  <p className="text-sm text-error mt-1 ml-1">{errors.password?.message}</p>
+                  <div className="relative w-full">
+                    <input type={showPassword ? "text" : "password"} placeholder="Password" className={`input input-lg w-full bg-white border-gray-200 focus:border-[#B59F84] focus:ring-1 focus:ring-[#B59F84] transition-all duration-300 rounded-xl pr-12 ${errors.password ? 'input-error' : ''}`}
+                    {...register('password')}/>
+                    <button
+                      type="button"
+                      tabIndex={-1}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      onClick={() => setShowPassword(v => !v)}
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                  <AnimatePresence>
+                    {errors.password?.message && (
+                      <motion.p key="password-err" className="text-sm text-error mt-1 ml-1"
+                        initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}>
+                        {errors.password.message}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </label>
                 <label className="label">
                   <a href="#" className="label-text-alt link link-hover text-2xl mt-2 font-extrabold text-red-400 font-cormorant">Forgot password?</a>
                 </label>
               </div>
               <div className='flex w-full flex-col mt-2'>
-                <button type="submit" className="btn btn-primary text-secondary font-bold  btn-block text-2xl  rounded-lg shadow-lg h-16 font-serif">Log in</button>
+                <button type="submit" className="btn btn-primary text-secondary font-bold  btn-block text-2xl  rounded-lg shadow-lg h-16 font-serif">
+                  {isSubmitting ? <><span className="loading loading-spinner loading-sm" />Signing in...</> : "Log in"}
+                </button>
                 <div className="divider text-base-content/30 uppercase text-md tracking-widest my-4">OR</div>
                 <button type="button" className="btn btn-ghost btn-block font-bold text-secondary text-xl hover:bg-primary/10 font-serif" onClick={() => document.getElementById('createUser-form').showModal()}>Create New Account</button>
               </div>

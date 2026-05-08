@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 
+/* Hide browser native password reveal button (Edge / Chrome) so our custom toggle is the only one */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
 @theme {
   --font-cinzel: "Cinzel Decorative", serif;
   --font-cormorant: "Cormorant Garamond", serif;

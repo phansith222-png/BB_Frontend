@@ -2,7 +2,21 @@
   "permissions": {
     "allow": [
       "Skill(update-config)",
-      "Skill(update-config:*)"
+      "Skill(update-config:*)",
+      "WebFetch(domain:stripe.com)",
+      "WebFetch(domain:tailwindui.com)",
+      "WebSearch",
+      "WebFetch(domain:docs.stripe.com)",
+      "WebFetch(domain:css-tricks.com)",
+      "WebFetch(domain:blog.pope.tech)",
+      "WebFetch(domain:www.cognitoforms.com)",
+      "WebFetch(domain:design-system.service.gov.uk)",
+      "WebFetch(domain:m1.material.io)",
+      "WebFetch(domain:polaris.shopify.com)",
+      "WebFetch(domain:polaris-react.shopify.com)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git commit -m 'Add AI error recovery with regenerate button *)"
     ]
   }
 }
