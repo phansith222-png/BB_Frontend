@@ -34,7 +34,7 @@ function Spread(props) {
       onClick={handleSelectSpread}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="relative group bg-[#FAF8F5] border border-[#DFC6AD]/60 rounded-3xl p-10 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-[#6C4620]/10 hover:border-[#6C4620]/40 hover:-translate-y-2 hover:z-10 min-h-[480px]"
+      className="relative group bg-[#FAF8F5] border border-[#DFC6AD]/60 rounded-3xl p-10 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-[#6C4620]/10 hover:border-[#6C4620]/40 hover:-translate-y-2 hover:z-10 min-h-[480px] h-full"
     >
       <AnimatePresence>
         {hovered && (

@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 
 function TarotCard({ id, name, img_url, reverse_Mean, upright_Mean }) {
   return (
-    <div className="flex flex-col px-4 py-2 font-serif shadow-xl">
+    <div className="flex flex-col px-4 py-2 font-serif shadow-xl h-full">
       <div className=' flex flex-col pt-3  items-center w-full cursor-pointer relative overflow-hidden rounded-xl '>
         <div className='w-full aspect-[2/3] max-w-[220px] transition-transform  hover:-translate-y-2 hover:shadow-primary/20 duration-300 p-4 border-2 rounded-lg flex flex-col'>
           <Link to={`/library/${id}`} className='w-full aspect-[2/3] max-w-[220px] p-2 border border-gray-100 rounded-lg flex flex-col'>
@@ -11,7 +11,7 @@ function TarotCard({ id, name, img_url, reverse_Mean, upright_Mean }) {
           </Link>
         </div>
       </div>
-      <div className='mt-8 text-center flex flex-col items-center gap-5 w-full'>
+      <div className='mt-8 text-center flex flex-col items-center gap-5 w-full flex-1'>
         <h2 className='text-2xl font-bold font-cormorant uppercase tracking-widest text-gray-900 transition-colors group-hover:text-[#B59F84]'>{name} Meaning</h2>
         <div className="text-sm leading-relaxed text-gray-600 max-w-[280px] flex flex-col gap-4">
           <div className='flex flex-col gap-1'>

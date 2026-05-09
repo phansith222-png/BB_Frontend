@@ -59,7 +59,7 @@ function Library() {
         }
     };
     return (
-        <div className='pt-30 min-h-screen w-full'>
+        <div className='pt-32 min-h-screen w-full'>
             <div className=' flex flex-col justify-center w-full items-center'>
                 <div className='flex flex-col w-full max-w-5xl'>
                     <div className="flex flex-col md:flex-row gap-2 items-stretch ">
@@ -123,7 +123,7 @@ function Library() {
                                         layout key={e.id} variants={cardAnimation} initial="hidden"
                                         animate="visible"
                                         exit="exit"
-                                        className="w-full">
+                                        className="w-full h-full">
                                         <TarotCard
                                             key={e.id}
                                             id={e.id}

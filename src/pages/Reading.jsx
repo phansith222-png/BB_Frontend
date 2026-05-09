@@ -74,7 +74,7 @@ function Reading() {
   )
 
   return (
-    <div className="pt-24 w-full min-h-screen bg-[#EDE5DC]">
+    <div className="pt-28 w-full min-h-screen bg-[#EDE5DC]">
       <motion.div className="text-center py-16 px-6" initial="hidden" animate="visible" variants={fadeUp}>
         <h1 className="font-cinzel font-bold text-5xl lg:text-6xl text-[#6C4620]">Select Your Reading</h1>
         <div className="flex items-center gap-4 max-w-xs mx-auto my-5">
@@ -87,7 +87,7 @@ function Reading() {
         </p>
       </motion.div>
 
-      <div className="w-full bg-[#EDE5DC]/95 border-b border-[#DFC6AD]/40 sticky top-20 z-10 py-4 backdrop-blur-md">
+      <div className="w-full bg-[#EDE5DC]/95 border-b border-[#DFC6AD]/40 sticky top-25 z-10 py-4 backdrop-blur-md">
         <div className="flex flex-wrap gap-3 justify-center">
           {tabs.map((tab) => {
             const Icon = TAB_ICONS[tab]

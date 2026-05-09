@@ -65,7 +65,7 @@ function Home() {
         )}
       </AnimatePresence>
 
-      <section className="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-24 pb-20">
+      <section className="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-28 pb-20">
         <div className="flex flex-col-reverse lg:flex-row items-center gap-8 sm:gap-12 lg:gap-20">
           <motion.div 
             className="flex-1 flex flex-col items-start gap-6"
