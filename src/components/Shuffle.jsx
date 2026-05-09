@@ -8,7 +8,7 @@ function Shuffle() {
     const isLoading = useReadStore(state => state.isLoading)
     const readingId = useReadStore(state => state.readingId)
     const deckOrder = useReadStore(state => state.deckOrder)
-    const isReversed = useReadStore(state=>state.isReversed)
+    const isReversed = useReadStore(state => state.isReversed)
     const shuffleCard = useReadStore(state => state.shuffleCard)
     const cutCard = useReadStore(state => state.cutCard)
     const setStep = useReadStore(state => state.setStep)
@@ -16,7 +16,7 @@ function Shuffle() {
     const [isShuffled, setIsShuffled] = useState(false)
     const [isAnimating, setIsAnimating] = useState(false)
     const [cutPosition, setCutPosition] = useState("");
-    const [error, setError] = useState("")
+    // const [error, setError] = useState("")
     const hdlShuffle = async () => {
         if (isLoading || isAnimating) return;
 

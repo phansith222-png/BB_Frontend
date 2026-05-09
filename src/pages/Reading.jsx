@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useNavigate } from 'react-router'
+// import { useNavigate } from 'react-router'
 import { Globe, Heart, Briefcase, Activity, LayoutGrid } from 'lucide-react'
 import useReadStore from '../stores/readStores'
 import Spread from '../components/Spread'
 
 const TAB_ICONS = {
-  ALL:     LayoutGrid,
+  ALL: LayoutGrid,
   GENERAL: Globe,
-  LOVE:    Heart,
-  CAREER:  Briefcase,
-  HEALTH:  Activity,
+  LOVE: Heart,
+  CAREER: Briefcase,
+  HEALTH: Activity,
 }
 
 const CATEGORY_ORDER = ["GENERAL", "LOVE", "CAREER", "HEALTH"]
@@ -21,7 +21,7 @@ const groupByCategory = (spreads) =>
     .filter(g => g.items.length > 0)
 
 function Reading() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("ALL")
 
   const getAllSpread = useReadStore(state => state.getAllSpread)
@@ -38,19 +38,19 @@ function Reading() {
   const tabs = ["ALL", "GENERAL", "LOVE", "CAREER", "HEALTH"]
 
   const fadeUp = {
-    hidden:  { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   }
 
   const cardVariants = {
-    hidden:  { opacity: 0, y: 24, scale: 0.96 },
-    visible: { opacity: 1, y: 0,  scale: 1,   transition: { duration: 0.45, ease: "easeOut" } },
-    exit:    { opacity: 0,        scale: 0.94, transition: { duration: 0.25 } },
+    hidden: { opacity: 0, y: 24, scale: 0.96 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: "easeOut" } },
+    exit: { opacity: 0, scale: 0.94, transition: { duration: 0.25 } },
   }
 
   const sectionHeaderVariants = {
-    hidden:  { opacity: 0, x: -12 },
-    visible: { opacity: 1, x: 0,   transition: { duration: 0.4 } },
+    hidden: { opacity: 0, x: -12 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
   }
 
   const renderGrid = (spreads) => (

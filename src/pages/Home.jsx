@@ -10,7 +10,7 @@ function Home() {
 
   const tarotOftheday = useReadStore(state => state.tarotOftheday)
   const dailyCard = useReadStore(state => state.dailyCard)
-  const aireading = useReadStore(state => state.aireading)
+  // const aireading = useReadStore(state => state.aireading)
   const isLoading = useReadStore(state => state.isLoading)
   const isflipped = useReadStore(state => state.isflipped)
   const checkDailyReset = useReadStore(state => state.checkDailyReset)
