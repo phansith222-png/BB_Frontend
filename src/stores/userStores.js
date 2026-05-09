@@ -1,7 +1,6 @@
 import { create } from "zustand"
 import { mainapi } from "../api/mainapi"
 import { createJSONStorage, persist } from "zustand/middleware"
-import useReadStore from "./readStores"
 import { toast } from "react-toastify"
 const useUserStore = create(
     persist(
@@ -20,7 +19,6 @@ const useUserStore = create(
             },
             logout: () => {
                 set({ token: '', user: null, profile: null })
-                useReadStore.getState().clearDaily();
             },
             getProfile: async () => {
                 try {

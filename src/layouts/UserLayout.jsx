@@ -1,12 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Footer from '../components/Footer'
 import Headers from '../components/Headers'
 import MobileNav from '../components/MobileNav'
 import { Outlet, useLocation } from 'react-router'
 import { AnimatePresence, motion } from 'framer-motion';
+import useReadStore from '../stores/readStores';
 function UserLayout() {
   const location = useLocation()
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const prevPathRef = useRef(location.pathname);
+  const clearSession = useReadStore(state => state.clearSession);
+
   useEffect(() => {
     setIsTransitioning(true);
 
@@ -16,6 +20,18 @@ function UserLayout() {
 
     return () => clearTimeout(timer);
   }, [location.pathname])
+
+  useEffect(() => {
+    const prev = prevPathRef.current;
+    const wasReading = prev.startsWith('/reading');
+    const isReading = location.pathname.startsWith('/reading');
+
+    if (wasReading && !isReading) {
+      clearSession();
+    }
+
+    prevPathRef.current = location.pathname;
+  }, [location.pathname, clearSession])
 
   return (
     <div className='bg-neutral/75 min-h-screen w-full'>

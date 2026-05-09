@@ -60,6 +60,20 @@ const useReadStore = create(persist((set, get) => ({
             isDaily: false
         });
     },
+    clearSession: () => {
+        set({
+            readingId: null,
+            isReversed: false,
+            step: "QUESTION",
+            deckOrder: [],
+            spread: null,
+            card: [],
+            aiReading: null,
+            aiError: false,
+            lastAiPayload: null,
+            isLoading: false,
+        });
+    },
     startReading: async (body) => {
         set({ isLoading: true })
         try {
