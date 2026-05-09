@@ -66,19 +66,19 @@ function Home() {
       </AnimatePresence>
 
       <section className="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-24 pb-20">
-        <div className="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
+        <div className="flex flex-col-reverse lg:flex-row items-center gap-8 sm:gap-12 lg:gap-20">
           <motion.div 
             className="flex-1 flex flex-col items-start gap-6"
             initial="hidden" animate="visible" variants={fadeUp}
           >
-            <h1 className="font-bold font-cormorant text-5xl lg:text-7xl tracking-wide text-gray-900 leading-tight">
+            <h1 className="font-bold font-cormorant text-4xl sm:text-5xl lg:text-7xl tracking-wide text-gray-900 leading-tight">
               Intuition Meets <br /> Intelligence
             </h1>
-            <p className="font-light text-lg lg:text-xl text-gray-600 leading-relaxed max-w-lg">
+            <p className="font-light text-base sm:text-lg lg:text-xl text-gray-600 leading-relaxed max-w-lg">
               Stop memorizing. Start connecting. Our sophisticated AI interprets
               the cards through the lens of your unique journey, in real-time.
             </p>
-            <div className="flex flex-wrap gap-4 mt-4">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 mt-4 w-full sm:w-auto">
               <button onClick={() => navigate('/reading')} className="px-8 py-3 rounded-full bg-gray-900 text-white hover:bg-gray-700 transition-colors shadow-lg">
                 Start Your Reading
               </button>

@@ -94,15 +94,15 @@ function Result() {
         <motion.div key="r" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="flex flex-col gap-8 w-full text-center max-w-5xl mx-auto pb-20">
             <h1 className="text-4xl font-bold font-cormorant text-base-content tracking-wider uppercas">BigBen's Insight</h1>
 
-            <div className=" p-8 rounded-3xl border border-gray-200 text-left relative shadow-xl shadow-base-300/50">
+            <div className="p-4 sm:p-6 md:p-8 rounded-3xl border border-gray-200 text-left relative shadow-xl shadow-base-300/50">
                 <p className="font-semibold text-gray-800 mb-6 border-b border-gray-200 pb-3 text-lg">ตามคำถามที่ตั้งไว้</p>
 
-                <div className="flex justify-center gap-4 mb-8">
+                <div className="flex justify-center gap-2 sm:gap-4 mb-8 flex-wrap">
                     {card && card.map((c, index) => {
                         const matchedCardIndeck = deckOrder.find(deckcard => deckcard.id === c.id)
                         const isCardReversed = matchedCardIndeck ? matchedCardIndeck.isReversed : false;
                         return (
-                            <div key={index} className='flex flex-col items-center gap-3 w-28 md:w-36'>
+                            <div key={index} className='flex flex-col items-center gap-3 w-20 sm:w-24 md:w-36'>
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -129,7 +129,7 @@ function Result() {
                         )
                     })}
                 </div>
-                <div className="bg-base-200/50 p-6 md:p-8 rounded-2xl border border-base-200 shadow-inner w-full">
+                <div className="bg-base-200/50 p-4 sm:p-6 md:p-8 rounded-2xl border border-base-200 shadow-inner w-full">
                     {renderAiSection()}
                 </div>
             </div>

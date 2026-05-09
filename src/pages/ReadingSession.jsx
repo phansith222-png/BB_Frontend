@@ -16,8 +16,8 @@ function ReadingSession() {
   
 
   return (
-    <div className='w-full min-h-screen flex flex-col items-center pt-32 px-6'>
-      <div className='w-full max-w-5xl rounded-3xl shadow-xl p-10 border border-gray-100 relative overflow-hidden'>
+    <div className='w-full min-h-screen flex flex-col items-center pt-24 md:pt-32 px-4 sm:px-6'>
+      <div className='w-full max-w-5xl rounded-3xl shadow-xl p-4 sm:p-6 md:p-10 border border-gray-100 relative overflow-hidden'>
         <AnimatePresence mode='wait'>
           {step === "QUESTION" && (
             <Question/>

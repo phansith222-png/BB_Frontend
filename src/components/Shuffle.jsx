@@ -70,18 +70,18 @@ function Shuffle() {
             <h1 className="text-4xl font-bold font-cormorant text-gray-900">Shuffle & Cut</h1>
             <p className='text-gray-500 font-light'>นึกถึงคำถามไว้ในใจ<br />แล้วเลือกตำแหน่งเพื่อตัดไพ่</p>
 
-            <div onClick={hdlShuffle} className={`relative w-40 h-56 my-6 flex justify-center items-center transition-all duration-300 ${(!isLoading && !isAnimating)
+            <div onClick={hdlShuffle} className={`relative w-32 h-48 sm:w-40 sm:h-56 my-6 flex justify-center items-center transition-all duration-300 ${(!isLoading && !isAnimating)
                 ? 'cursor-pointer hover:scale-110 hover:drop-shadow-2xl'
                 : 'cursor-not-allowed opacity-90'
                 }`}
                 title="คลิกเพื่อสับไพ่"
             >
                 <motion.div animate={isAnimating ? { x: [0, 50, -40, 0], rotate: [0, 10, -10, 0], transition: { duration: 1.5, repeat: Infinity } } : { rotate: 5, x: 10 }}
-                    className="absolute w-36 h-52 bg-[#D1C4B5] border border-white rounded-xl shadow-sm" />
+                    className="absolute w-28 h-44 sm:w-36 sm:h-52 bg-[#D1C4B5] border border-white rounded-xl shadow-sm" />
                 <motion.div animate={isAnimating ? { x: [0, -50, 40, 0], rotate: [0, -10, 10, 0], transition: { duration: 0.5, repeat: Infinity } } : { rotate: -5, x: -10 }}
-                    className="absolute w-36 h-52 bg-[#C2B29F] border border-white rounded-xl shadow-md" />
+                    className="absolute w-28 h-44 sm:w-36 sm:h-52 bg-[#C2B29F] border border-white rounded-xl shadow-md" />
                 <motion.div animate={deckAnimation}
-                    className="absolute w-36 h-52 bg-[#B59F84] border-2 border-[#FAF8F5] rounded-xl shadow-xl flex items-center justify-center">
+                    className="absolute w-28 h-44 sm:w-36 sm:h-52 bg-[#B59F84] border-2 border-[#FAF8F5] rounded-xl shadow-xl flex items-center justify-center">
                     <img
                         src="https://images.unsplash.com/photo-1739475981246-a6d8be7081e2?q=80&w=709&auto=format&fit=crop"
                         alt="Card Back"

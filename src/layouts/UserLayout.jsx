@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Footer from '../components/Footer'
 import Headers from '../components/Headers'
+import MobileNav from '../components/MobileNav'
 import { Outlet, useLocation } from 'react-router'
 import { AnimatePresence, motion } from 'framer-motion';
 function UserLayout() {
@@ -35,10 +36,11 @@ function UserLayout() {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className='flex-grow'>
+      <div className='flex-grow pb-20 md:pb-0'>
         <Outlet />
       </div>
       <Footer />
+      <MobileNav />
     </div>
   )
 }

@@ -61,8 +61,8 @@ function Pick() {
                 </p>
             </div>
 
-            <div className="bg-base-300 p-6 rounded-box border border-neutral shadow-inner h-[420px] overflow-y-auto w-full">
-                <div className='gap-4 md:gap-8 flex flex-wrap justify-center'>
+            <div className="bg-base-300 p-3 sm:p-6 rounded-box border border-neutral shadow-inner h-[280px] sm:h-[360px] md:h-[420px] overflow-y-auto w-full">
+                <div className='gap-3 sm:gap-4 md:gap-8 flex flex-wrap justify-center'>
                     {deckOrder && deckOrder.map((_, index) => {
                         const isPicked = selectedCard.includes(index); // ไพ่ใบนี้ถูกเลือกหรือยัง ? ispicked === true ถ้าถูกเลือกแล้ว false ถ้ายังไม่ถูกเลือก
                         const isQuotaFull = selectedCard.length >= requiredCards; //โควต่าใน selectedCard เต้ม requiredCards แล้วหรือยัง ?
@@ -77,7 +77,7 @@ function Pick() {
                                 opacity: shouldFadeOut ? 0.4 : 1 
                             }}
                             whileHover={(!isQuotaFull && !isPicked) ? { y: -8 } : {}} // ถ้าโควต้ายังไม่เต็ม และไพ่ยังไม่ถูกเลือก ให้ hover ได้ แต่ถ้าเลือกแล้วหรือโควต้าเต็ม hover ไม่เกิดอะไร
-                            className={`w-16 h-24 md:w-20 md:h-28 rounded-lg shadow-md cursor-pointer transition-colors duration-300 border-2 ${isPicked
+                            className={`w-14 h-20 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-lg shadow-md cursor-pointer transition-colors duration-300 border-2 ${isPicked
                                     ? 'border-accent shadow-accent/20 shadow-xl'
                                     : 'border-base-100 hover:border-primary'
                                 }`}
