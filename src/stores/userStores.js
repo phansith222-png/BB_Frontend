@@ -20,6 +20,10 @@ const useUserStore = create(
             logout: () => {
                 set({ token: '', user: null, profile: null })
             },
+            forgotPassword: async (body) => {
+                const resp = await mainapi.post('/auth/forgot-password', body)
+                return resp
+            },
             getProfile: async () => {
                 try {
                     const resp = await mainapi.get("/users/me")

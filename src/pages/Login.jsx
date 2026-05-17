@@ -7,6 +7,7 @@ import { loginSchema } from "../validations/schema"
 import useUserStore from "../stores/userStores"
 import { toast } from "react-toastify"
 import RegisterForm from "../components/RegisterForm"
+import ForgotPasswordForm from "../components/ForgotPasswordForm"
 
 function Login() {
   const login = useUserStore(state => state.login)
@@ -86,9 +87,11 @@ function Login() {
                     )}
                   </AnimatePresence>
                 </label>
-                <label className="label">
-                  <a href="#" className="label-text-alt link link-hover text-2xl mt-2 font-extrabold text-red-400 font-cormorant">Forgot password?</a>
-                </label>
+                <button type="button"
+                  className="text-sm text-gray-400 font-light mt-2 self-end underline underline-offset-2 hover:text-gray-600 transition-colors duration-200"
+                  onClick={() => document.getElementById('forgotPassword-form').showModal()}>
+                  Forgot password?
+                </button>
               </div>
               <div className='flex w-full flex-col mt-2'>
                 <button type="submit" className="btn btn-primary text-secondary font-bold  btn-block text-2xl  rounded-lg shadow-lg h-16 font-serif">
@@ -104,6 +107,14 @@ function Login() {
       <dialog id="createUser-form" className="modal ">
         <div className="modal-box rounded-3xl p-8">
           <RegisterForm />
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+      <dialog id="forgotPassword-form" className="modal">
+        <div className="modal-box rounded-3xl p-8">
+          <ForgotPasswordForm />
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>

@@ -25,6 +25,13 @@ export const loginSchema = z.object({
     password: z.string().min(6, "Password must be at least 6 characters long")
 })
 
+export const forgotPasswordSchema = z.object({
+    identity: z.string().min(1, "Required").refine(
+        v => emailRegex.test(v) || v.length >= 8,
+        "Enter a valid email or username (min 8 characters)"
+    )
+})
+
 export const updateMeSchema = z.object({
     identity: z.string().optional().or(z.literal('')),
     username: z.string().min(8, ("Username must be at least 8 characters long")).optional(),

@@ -24,5 +24,6 @@ dist-ssr
 *.sw?
 
 .env
-
+.claude
+.claude/settings.local.json
 CLAUDE.md

@@ -2,13 +2,13 @@ import { lazy, Suspense, } from "react";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router";
 import UserLayout from "../layouts/UserLayout";
 import useUserStore from "../stores/userStores";
+import Login from "../pages/Login";
 
 
 
 const Home = lazy(() => import('../pages/Home'))
 const Reading = lazy(() => import('../pages/Reading'))
 const Profile = lazy(() => import('../pages/Profile'))
-const Login = lazy(() => import('../pages/Login'))
 const Library = lazy(() => import('../pages/Library'))
 const ReadingSession = lazy(() => import('../pages/ReadingSession'));
 const DetailCard = lazy(()=> import('../pages/DetailCard'))
