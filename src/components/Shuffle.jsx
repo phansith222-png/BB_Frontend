@@ -59,10 +59,9 @@ function Shuffle() {
     }
 
     const deckAnimation = isAnimating ? {
-        x: [0, -60, 60, -30, 0],
-        y: [0, -10, 15, -5, 0],
-        rotate: [0, -15, 15, -5, 0],
-        transition: { duration: 1, repeat: Infinity, ease: "easeInOut" }
+        x: [0, -50, 50, 0],
+        rotate: [0, -12, 12, 0],
+        transition: { duration: 0.9, repeat: Infinity, ease: "easeInOut" }
     } : { x: 0, y: 0, rotate: 0 };
 
     return (
@@ -76,11 +75,16 @@ function Shuffle() {
                 }`}
                 title="คลิกเพื่อสับไพ่"
             >
-                <motion.div animate={isAnimating ? { x: [0, 50, -40, 0], rotate: [0, 10, -10, 0], transition: { duration: 1.5, repeat: Infinity } } : { rotate: 5, x: 10 }}
+                <motion.div
+                    animate={isAnimating ? { rotate: [5, 12, 5], transition: { duration: 2, repeat: Infinity, ease: "easeInOut" } } : { rotate: 5, x: 10 }}
+                    style={{ willChange: "transform" }}
                     className="absolute w-28 h-44 sm:w-36 sm:h-52 bg-[#D1C4B5] border border-white rounded-xl shadow-sm" />
-                <motion.div animate={isAnimating ? { x: [0, -50, 40, 0], rotate: [0, -10, 10, 0], transition: { duration: 0.5, repeat: Infinity } } : { rotate: -5, x: -10 }}
+                <motion.div
+                    animate={isAnimating ? { rotate: [-5, -12, -5], transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" } } : { rotate: -5, x: -10 }}
+                    style={{ willChange: "transform" }}
                     className="absolute w-28 h-44 sm:w-36 sm:h-52 bg-[#C2B29F] border border-white rounded-xl shadow-md" />
                 <motion.div animate={deckAnimation}
+                    style={{ willChange: "transform" }}
                     className="absolute w-28 h-44 sm:w-36 sm:h-52 bg-[#B59F84] border-2 border-[#FAF8F5] rounded-xl shadow-xl flex items-center justify-center">
                     <img
                         src="https://images.unsplash.com/photo-1739475981246-a6d8be7081e2?q=80&w=709&auto=format&fit=crop"

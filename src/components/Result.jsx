@@ -39,11 +39,16 @@ function Result() {
     const renderAiSection = () => {
         if (aiReading?.data) {
             return (
-                <div className="flex flex-col gap-6 text-left">
-                    <div className="flex flex-col md:flex-row items-center gap-4 bg-base-100 p-4 rounded-xl border border-base-300 shadow-sm w-full">
-                        <span className="text-sm font-bold text-base-content/70 uppercase tracking-widest whitespace-nowrap">
-                            พลังงานภาพรวม (Energy)
-                        </span>
+                <div className="flex flex-col gap-4 text-left">
+                    <div className="flex flex-col gap-2 bg-base-100 p-4 rounded-xl border border-base-300 shadow-sm w-full">
+                        <div className="flex justify-between items-center">
+                            <span className="text-xs font-bold text-base-content/70 uppercase tracking-widest">
+                                พลังงานภาพรวม (Energy)
+                            </span>
+                            <span className="font-bold text-lg font-cormorant text-base-content">
+                                {aiReading.data.mood_score}%
+                            </span>
+                        </div>
                         <progress
                             className={`progress w-full h-3 ${aiReading.data.mood_score >= 70 ? 'progress-success' :
                                     aiReading.data.mood_score >= 40 ? 'progress-warning' :
@@ -52,14 +57,12 @@ function Result() {
                             value={aiReading.data.mood_score}
                             max="100"
                         ></progress>
-                        <span className="font-bold text-xl font-cormorant text-base-content w-12 text-right">
-                            {aiReading.data.mood_score}%
-                        </span>
                     </div>
-                    <h3 className="text-base-content/80 leading-loose font-bold text-lg md:text-xl whitespace-pre-wrap">
+                    <h3 className="text-base-content/80 leading-relaxed font-bold text-base md:text-lg whitespace-pre-wrap">
                         "{aiReading.data.summary}"
                     </h3>
-                    <div className="text-base-content/80 leading-loose font-light text-lg md:text-xl whitespace-pre-wrap">
+                    <hr className="border-base-200" />
+                    <div className="text-base-content/80 leading-relaxed font-light text-base md:text-lg whitespace-pre-wrap">
                         {aiReading.data.detail}
                     </div>
                 </div>
@@ -91,18 +94,19 @@ function Result() {
     }
 
     return (
-        <motion.div key="r" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="flex flex-col gap-8 w-full text-center max-w-5xl mx-auto pb-20">
+        <motion.div key="r" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="flex flex-col gap-6 md:gap-8 w-full text-center max-w-5xl mx-auto pb-20">
             <h1 className="text-4xl font-bold font-cormorant text-base-content tracking-wider uppercas">BigBen's Insight</h1>
 
             <div className="p-4 sm:p-6 md:p-8 rounded-3xl border border-gray-200 text-left relative shadow-xl shadow-base-300/50">
                 <p className="font-semibold text-gray-800 mb-6 border-b border-gray-200 pb-3 text-lg">ตามคำถามที่ตั้งไว้</p>
 
-                <div className="flex justify-center gap-2 sm:gap-4 mb-8 flex-wrap">
+                <div className="overflow-x-auto pb-3 mb-6">
+                <div className="flex gap-3 sm:gap-4 w-fit mx-auto">
                     {card && card.map((c, index) => {
                         const matchedCardIndeck = deckOrder.find(deckcard => deckcard.id === c.id)
                         const isCardReversed = matchedCardIndeck ? matchedCardIndeck.isReversed : false;
                         return (
-                            <div key={index} className='flex flex-col items-center gap-3 w-20 sm:w-24 md:w-36'>
+                            <div key={index} className='flex flex-col items-center gap-3 w-[4.5rem] sm:w-24 md:w-36 flex-shrink-0'>
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -129,13 +133,14 @@ function Result() {
                         )
                     })}
                 </div>
+                </div>
                 <div className="bg-base-200/50 p-4 sm:p-6 md:p-8 rounded-2xl border border-base-200 shadow-inner w-full">
                     {renderAiSection()}
                 </div>
             </div>
             {/* Share button hidden temporarily */}
             {!isSaved ? (
-                <div className="bg-white border border-gray-200 p-6 rounded-3xl shadow-sm text-left mx-auto w-full max-w-4xl">
+                <div className="bg-white border border-gray-200 p-4 sm:p-6 rounded-3xl shadow-sm text-left mx-auto w-full max-w-4xl">
                     <h3 className="text-2xl font-bold font-cormorant text-gray-900 mb-2">Save to Journal</h3>
                     <p className="text-sm text-gray-500 font-light mb-4">บันทึกคำทำนายนี้ไว้ในประวัติของคุณ พร้อมจดความรู้สึกหรือสิ่งที่เกิดขึ้น</p>
 
