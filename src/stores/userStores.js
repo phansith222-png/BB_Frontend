@@ -24,6 +24,10 @@ const useUserStore = create(
                 const resp = await mainapi.post('/auth/forgot-password', body)
                 return resp
             },
+            resetPassword: async (body) => {
+                const resp = await mainapi.post('/auth/reset-password', body)
+                return resp
+            },
             getProfile: async () => {
                 try {
                     const resp = await mainapi.get("/users/me")

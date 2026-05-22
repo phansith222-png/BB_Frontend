@@ -157,10 +157,25 @@ function RegisterForm() {
                             </AnimatePresence>
                         </label>
                     </div>
-                    <button type="submit" className="btn btn-primary w-full text-secondary font-bold btn-block text-lg rounded-lg shadow-lg h-12 font-serif">
-                        {isSubmitting ? <><span className="loading loading-spinner loading-sm" />Signing up...</> : "Sign up"}
-                    </button>
-                    <button type="button" onClick={() => reset()} className="btn btn-ghost btn-block font-bold text-secondary text-md hover:bg-primary/10 font-serif">Clear</button>
+                    <motion.button
+                        type="submit"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.97 }}
+                        animate={isSubmitting ? { boxShadow: ["0px 0px 0px rgba(181,159,132,0)", "0px 0px 20px rgba(181,159,132,0.45)", "0px 0px 0px rgba(181,159,132,0)"] } : {}}
+                        transition={{ boxShadow: { duration: 1.4, repeat: Infinity, ease: "easeInOut" } }}
+                        className="btn btn-primary w-full text-secondary font-bold btn-block text-lg rounded-lg shadow-lg h-12 font-serif"
+                    >
+                        {isSubmitting ? <><span className="loading loading-ring loading-sm" />Signing up...</> : "Sign up"}
+                    </motion.button>
+                    <motion.button
+                        type="button"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => reset()}
+                        className="btn btn-ghost btn-block font-bold text-secondary text-md hover:bg-primary/10 font-serif"
+                    >
+                        Clear
+                    </motion.button>
                 </fieldset>
             </form>
         </div>

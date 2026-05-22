@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 
 
 const Home = lazy(() => import('../pages/Home'))
+const ResetPasswordPage = lazy(() => import('../pages/ResetPasswordPage'))
 const Reading = lazy(() => import('../pages/Reading'))
 const Profile = lazy(() => import('../pages/Profile'))
 const Library = lazy(() => import('../pages/Library'))
@@ -24,6 +25,10 @@ const guestRouter = createBrowserRouter([
     {
         path: "/login",
         Component: Login
+    },
+    {
+        path: "/reset-password",
+        Component: ResetPasswordPage
     },
     {
         path: "/",

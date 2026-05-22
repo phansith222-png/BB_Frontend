@@ -94,11 +94,26 @@ function Login() {
                 </button>
               </div>
               <div className='flex w-full flex-col mt-2'>
-                <button type="submit" className="btn btn-primary text-secondary font-bold  btn-block text-2xl  rounded-lg shadow-lg h-16 font-serif">
-                  {isSubmitting ? <><span className="loading loading-spinner loading-sm" />Signing in...</> : "Log in"}
-                </button>
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
+                  animate={isSubmitting ? { boxShadow: ["0px 0px 0px rgba(181,159,132,0)", "0px 0px 20px rgba(181,159,132,0.45)", "0px 0px 0px rgba(181,159,132,0)"] } : {}}
+                  transition={{ boxShadow: { duration: 1.4, repeat: Infinity, ease: "easeInOut" } }}
+                  className="btn btn-primary text-secondary font-bold btn-block text-2xl rounded-lg shadow-lg h-16 font-serif"
+                >
+                  {isSubmitting ? <><span className="loading loading-ring loading-sm" />Signing in...</> : "Log in"}
+                </motion.button>
                 <div className="divider text-base-content/30 uppercase text-md tracking-widest my-4">OR</div>
-                <button type="button" className="btn btn-ghost btn-block font-bold text-secondary text-xl hover:bg-primary/10 font-serif" onClick={() => document.getElementById('createUser-form').showModal()}>Create New Account</button>
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="btn btn-ghost btn-block font-bold text-secondary text-xl hover:bg-primary/10 font-serif"
+                  onClick={() => document.getElementById('createUser-form').showModal()}
+                >
+                  Create New Account
+                </motion.button>
               </div>
             </fieldset>
           </form>

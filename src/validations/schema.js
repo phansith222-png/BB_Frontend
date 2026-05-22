@@ -32,6 +32,14 @@ export const forgotPasswordSchema = z.object({
     )
 })
 
+export const resetPasswordSchema = z.object({
+    password: z.string().min(6, "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร"),
+    confirmPassword: z.string(),
+}).refine(d => d.password === d.confirmPassword, {
+    message: "รหัสผ่านไม่ตรงกัน",
+    path: ["confirmPassword"],
+})
+
 export const updateMeSchema = z.object({
     identity: z.string().optional().or(z.literal('')),
     username: z.string().min(8, ("Username must be at least 8 characters long")).optional(),
