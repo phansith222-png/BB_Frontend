@@ -2,7 +2,7 @@ import { toast } from "react-toastify"
 import CardOftheday from "../components/CardOftheday"
 import useReadStore from "../stores/readStores"
 import { AnimatePresence, motion } from "framer-motion"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { BookOpen, Compass, Sparkles } from "lucide-react"
 function Home() {
@@ -15,9 +15,29 @@ function Home() {
   const isflipped = useReadStore(state => state.isflipped)
   const checkDailyReset = useReadStore(state => state.checkDailyReset)
 
+  const loadingTimer = 40
+  const [timeLeft,setTimeleft] = useState(loadingTimer)
   useEffect(() => {
       checkDailyReset();
   }, [checkDailyReset]);
+
+  useEffect(() => {
+    let timer;
+    if (isLoading) {
+      setTimeleft(loadingTimer);
+      
+      timer = setInterval(() => {
+        setTimeleft((prev) => {
+          if (prev <= 0.1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return Number((prev - 0.1).toFixed(1));
+        });
+      }, 100);
+    }
+    return () => clearInterval(timer);
+  }, [isLoading])
   const hdlTarotOftheday = async () => {
     try {
       await tarotOftheday()
@@ -61,6 +81,16 @@ function Home() {
             <p className="font-cormorant text-3xl text-gray-800 tracking-widest animate-pulse uppercase">
               Connecting to the Stars...
             </p>
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center gap-1 font-sans text-xs tracking-widest text-gray-500 uppercase"
+            >
+              <span>Estimated duration: {loadingTimer}s</span>
+              <span className="font-mono text-sm text-[#B59F84] font-medium mt-1">
+                {timeLeft > 0 ? `Aligning orbits in ${timeLeft}s` : "Reading destiny..."}
+              </span>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
